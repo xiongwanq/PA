@@ -32,6 +32,20 @@ static int cmd_c(char *args) {
   return 0;
 }
 
+static int cmd_si(char *args){
+  char* strs="si -1";
+  char str[30];
+  strcpy(str,strs);
+ 
+  char* a=strtok(str," ");
+  a=strtok(NULL," ");
+	
+  int num;
+  num = atoi(a);
+  printf("%d",num);
+  return 0;
+}	
+
 static int cmd_q(char *args) {
   return -1;
 }
@@ -46,6 +60,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si[N]", "Stop the program after N steps, default value is 1", cmd_si },
 
   /* TODO: Add more commands */
 
