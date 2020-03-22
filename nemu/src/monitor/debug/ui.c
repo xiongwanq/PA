@@ -52,7 +52,7 @@ static int cmd_si(char *args){
   //args="N"
   //char str[30];
   //strcpy(str,args);
- 
+  printf("args=%s\n",args);	
   char* str=strtok(args," ");
 	
   int num;
