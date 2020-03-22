@@ -28,6 +28,7 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
+  printf("args=%s",args);
   cpu_exec(-1);
   return 0;
 }
