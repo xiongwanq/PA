@@ -33,34 +33,33 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-static int cmd_si(char *args){   
-    printf("args=%s\n",args);
-	char *arg = strtok(args," ");
-    //printf("arg=%s\n",arg);
-    if(arg == NULL){
-        printf("too few arguments.\n");
-        return 1;
-    }
-    int num = atoi(arg);
-    //printf("num=%d\n",num);
-	cpu_exec(num);
-    printf("OK");
-    return 0;
-};
+//static int cmd_si(char *args){   
+//    printf("args=%s\n",args);
+//	char *arg = strtok(args," ");
+//    //printf("arg=%s\n",arg);
+//    if(arg == NULL){
+//        printf("too few arguments.\n");
+//        return 1;
+//    }
+//    int num = atoi(arg);
+//    //printf("num=%d\n",num);
+//	cpu_exec(num);
+//    printf("OK");
+//    return 0;
+//};
 
-//static int cmd_si(char *args){
-//  //char* strs="si -1";
-//  char str[30];
-//  strcpy(str,args);
-// 
-//  char* a=strtok(str," ");
-//  a=strtok(NULL," ");
-//	
-//  int num;
-//  num = atoi(a);
-//  printf("%d",num);
-//  return 0;
-//}	
+static int cmd_si(char *args){
+  //args="N"
+  //char str[30];
+  //strcpy(str,args);
+ 
+  char* str=strtok(args," ");
+	
+  int num;
+  num = atoi(str);
+  printf("%d",num);
+  return 0;
+}	
 
 static int cmd_q(char *args) {
   return -1;
