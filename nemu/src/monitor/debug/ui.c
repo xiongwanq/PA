@@ -32,19 +32,32 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-static int cmd_si(char *args){
-  //char* strs="si -1";
-  char str[30];
-  strcpy(str,args);
- 
-  char* a=strtok(str," ");
-  a=strtok(NULL," ");
-	
-  int num;
-  num = atoi(a);
-  printf("%d",num);
-  return 0;
-}	
+static int cmd_si(char *args){   
+    char *arg = strtok(args," ");
+    // printf("%s\n",arg);
+    if(arg == NULL){
+        printf("too few arguments.\n");
+        return 1;
+    }
+    int num = atoi(arg);
+    cpu_exec(num);
+    printf("OK");
+    return 0;
+};
+
+//static int cmd_si(char *args){
+//  //char* strs="si -1";
+//  char str[30];
+//  strcpy(str,args);
+// 
+//  char* a=strtok(str," ");
+//  a=strtok(NULL," ");
+//	
+//  int num;
+//  num = atoi(a);
+//  printf("%d",num);
+//  return 0;
+//}	
 
 static int cmd_q(char *args) {
   return -1;
