@@ -33,9 +33,9 @@ static int cmd_c(char *args) {
 }
 
 static int cmd_si(char *args){
-  char* strs="si -1";
+  //char* strs="si -1";
   char str[30];
-  strcpy(str,strs);
+  strcpy(str,args);
  
   char* a=strtok(str," ");
   a=strtok(NULL," ");
