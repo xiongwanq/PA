@@ -53,10 +53,10 @@ static int cmd_si(char *args){
   //char str[30];
   //strcpy(str,args);
   printf("args=%s\n",args);	
-  char* str=strtok(args," ");
+  //char* str=strtok(args," ");
 	
   int num;
-  num = atoi(str);
+  num = atoi(args);
   printf("%d",num);
  
   cpu_exec(num);
