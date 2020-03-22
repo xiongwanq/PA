@@ -34,13 +34,14 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args){   
     char *arg = strtok(args," ");
-    // printf("%s\n",arg);
+    printf("arg=%s\n",arg);
     if(arg == NULL){
         printf("too few arguments.\n");
         return 1;
     }
     int num = atoi(arg);
-    cpu_exec(num);
+    printf("num=%d\n",num);
+	cpu_exec(num);
     printf("OK");
     return 0;
 };
