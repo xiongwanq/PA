@@ -52,7 +52,12 @@ static int cmd_si(char *args){
   //args="N"
   printf("args=%s\n",args);	
   int num;
-  num = atoi(args);
+  if(args==NULL){
+	num=1;
+	}
+  else{
+	num = atoi(args);
+	}
   printf("%d",num);
   
   cpu_exec(num);
