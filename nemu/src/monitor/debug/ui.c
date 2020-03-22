@@ -50,15 +50,11 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args){
   //args="N"
-  //char str[30];
-  //strcpy(str,args);
   printf("args=%s\n",args);	
-  //char* str=strtok(args," ");
-	
   int num;
   num = atoi(args);
   printf("%d",num);
- 
+  
   cpu_exec(num);
   return 0;
 }	
