@@ -59,10 +59,10 @@ static int cmd_info(char *args){
   //printf("args=%s\n",args);
   if (strcmp(arg,"r") == 0){
 	for(int i=0; i<8; i++){
-	  printf("%s:\t%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
+	  printf("%s:\t0x%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}	
     for(int i=0; i<8; i++){
-      printf("%s:\t%8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
+      printf("%s:\t0x%8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
     }
 	for(int i=0; i<8; i++){
 	  int j;
@@ -71,9 +71,19 @@ static int cmd_info(char *args){
 	  }else{
 		j=1;
 	  }
-      printf("%s:\t%8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
+      printf("%s:\t0x%8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
 	}
   }
+  return 0;
+}
+
+static int cmd_x(char *args){
+  char *arg = strtok(NULL, " ");
+  printf("arg=%s",arg);
+  arg = strtok(NULL, " ");
+  printf("arg=%s",arg);
+  arg = strtok(NULL, " ");
+  printf("arg=%s",arg);
   return 0;
 }
 
@@ -87,8 +97,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Stop the program after N steps, default value is 1", cmd_si },
-  { "info r", "Print register status", cmd_info },
+  { "si", "[N]Stop the program after N steps, default value is 1", cmd_si },
+  { "info", "[r]Print register status\t", cmd_info },
+  { "x", "Scan memory", cmd_x},
 
   /* TODO: Add more commands */
 
