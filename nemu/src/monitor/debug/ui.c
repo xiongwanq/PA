@@ -78,12 +78,9 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
-  char *arg = strtok(NULL, " ");
-  printf("arg=%s\n",arg);
-  arg = strtok(NULL, " ");
-  printf("arg=%s\n",arg);
-  arg = strtok(NULL, " ");
-  printf("arg=%s\n",arg);
+  char *stepNum = strtok(NULL, " ");
+  char *memoryAddr = strtok(NULL, " ");
+  printf("stepNum=%s\tmemoryAddr=%s\n",stepNum,memoryAddr);
   return 0;
 }
 
