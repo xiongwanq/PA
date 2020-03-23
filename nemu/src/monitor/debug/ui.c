@@ -54,9 +54,11 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_info(char *args){
-  char *arg = strtok(args," ");
-  printf("args=%s\n",args);
-  printf("arg'=%s\n",arg);
+  //char *arg = strtok(args," ");
+  //printf("args=%s\n",args);
+  if (strcmp(args,"r") == 0){
+	printf("%s:\t%8x\t", regsl[0], cpu.gpr[0]._32);
+  }
   return 0;
 }
 
