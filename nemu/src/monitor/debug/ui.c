@@ -36,13 +36,13 @@ static int cmd_c(char *args) {
 static int cmd_si(char *args){
   //args="N"
   //printf("args=%s\n",args);	
-  //char *arg = strtok(NULL, " ");
+  char *arg = strtok(NULL, " ");
   int num;
-  if(args==NULL){
+  if(arg==NULL){
 	num=1;
 	}
   else{
-	num = atoi(args);
+	num = atoi(arg);
 	}
   //printf("%d",num);
   
@@ -86,9 +86,7 @@ static struct {
 
 static int cmd_help(char *args) {
   /* extract the first argument */
-  printf("args=%s\n",args);
   char *arg = strtok(NULL, " ");
-  printf("arg=%s\n",arg);
   int i;
 
   if (arg == NULL) {
