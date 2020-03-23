@@ -82,7 +82,7 @@ static int cmd_x(char *args){
   vaddr_t stepNum = atoi(step);
   char *addr = strtok(NULL, " ");
   vaddr_t addrStart = atoi(addr);
-  printf("stepNum=%d\taddrStart=%d\n",stepNum,addrStart);
+  printf("stepNum=%d\taddrStart=0x%8x\n",stepNum,addrStart);
   return 0;
 }
 
