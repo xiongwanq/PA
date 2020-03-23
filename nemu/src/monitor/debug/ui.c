@@ -28,7 +28,7 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  printf("args=%s",args);
+  //printf("args=%s",args);
   cpu_exec(-1);
   return 0;
 }
@@ -36,6 +36,7 @@ static int cmd_c(char *args) {
 static int cmd_si(char *args){
   //args="N"
   //printf("args=%s\n",args);	
+  //char *arg = strtok(NULL, " ");
   int num;
   if(args==NULL){
 	num=1;
@@ -54,9 +55,11 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_info(char *args){
-  //char *arg = strtok(args," ");
+//char *arg = strtok(NULL, " ");  
+//char *arg = strtok(args," ");
   //printf("args=%s\n",args);
   if (strcmp(args,"r") == 0){
+	
 	printf("%s:\t%8x\t", regsl[0], cpu.gpr[0]._32);
   }
   return 0;
@@ -83,7 +86,9 @@ static struct {
 
 static int cmd_help(char *args) {
   /* extract the first argument */
+  printf("args=%s\n",args);
   char *arg = strtok(NULL, " ");
+  printf("arg=%s\n",arg);
   int i;
 
   if (arg == NULL) {
