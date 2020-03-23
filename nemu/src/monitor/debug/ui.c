@@ -79,11 +79,11 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   char *arg = strtok(NULL, " ");
-  printf("arg=%s",arg);
-  arg = strtok(NULL, " ");
-  printf("arg=%s",arg);
-  arg = strtok(NULL, " ");
-  printf("arg=%s",arg);
+  printf("arg=%s\n",arg);
+  //arg = strtok(NULL, " ");
+  printf("arg=%s\n",arg);
+  //arg = strtok(NULL, " ");
+  printf("arg=%s\n",arg);
   return 0;
 }
 
