@@ -55,12 +55,11 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_info(char *args){
-//char *arg = strtok(NULL, " ");  
-//char *arg = strtok(args," ");
+  char *arg = strtok(NULL, " ");  
   //printf("args=%s\n",args);
-  if (strcmp(args,"r") == 0){
-	for(int i=1; i<=8; i++){
-	  printf("%s:\t%8x\t", regsl[0], cpu.gpr[0]._32);
+  if (strcmp(arg,"r") == 0){
+	for(int i=0; i<8; i++){
+	  printf("%s:\t%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}	
   }
   return 0;
