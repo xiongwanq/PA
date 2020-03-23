@@ -54,7 +54,9 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_info(char *args){
+  char *arg = strtok(args," ");
   printf("args=%s\n",args);
+  printf("arg'=%s\n",arg);
   return 0;
 }
 
