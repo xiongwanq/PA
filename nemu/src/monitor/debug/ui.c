@@ -78,9 +78,10 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
-  char *stepNum = strtok(NULL, " ");
-  char *memoryAddr = strtok(NULL, " ");
-  printf("stepNum=%s\tmemoryAddr=%s\n",stepNum,memoryAddr);
+  char *step = strtok(NULL, " ");
+  vaddr_t stepNum = atoi(step);
+  char *addr = strtok(NULL, " ");
+  printf("stepNum=%d\taddr=%s\n",stepNum,addr);
   return 0;
 }
 
