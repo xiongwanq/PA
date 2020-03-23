@@ -33,24 +33,9 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-//static int cmd_si(char *args){   
-//    printf("args=%s\n",args);
-//	char *arg = strtok(args," ");
-//    //printf("arg=%s\n",arg);
-//    if(arg == NULL){
-//        printf("too few arguments.\n");
-//        return 1;
-//    }
-//    int num = atoi(arg);
-//    //printf("num=%d\n",num);
-//	cpu_exec(num);
-//    printf("OK");
-//    return 0;
-//};
-
 static int cmd_si(char *args){
   //args="N"
-  printf("args=%s\n",args);	
+  //printf("args=%s\n",args);	
   int num;
   if(args==NULL){
 	num=1;
@@ -58,7 +43,7 @@ static int cmd_si(char *args){
   else{
 	num = atoi(args);
 	}
-  printf("%d",num);
+  //printf("%d",num);
   
   cpu_exec(num);
   return 0;
@@ -66,6 +51,11 @@ static int cmd_si(char *args){
 
 static int cmd_q(char *args) {
   return -1;
+}
+
+static int cmd_info(char *args){
+  printf("args=%s\n",args);
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -79,6 +69,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Stop the program after N steps, default value is 1", cmd_si },
+  { "info r", "Print register status", cmd_info },
 
   /* TODO: Add more commands */
 
