@@ -81,10 +81,10 @@ static int cmd_x(char *args){
   char *step = strtok(NULL, " ");
   vaddr_t stepNum = atoi(step);
   char *addr = strtok(NULL, " ");
-  //vaddr_t addrStart = atoi(addr);
-  int StartPoint;
-  sscanf(addr,"%x",&StartPoint);
-  printf("stepNum=%d\taddrStart=  \tStartPoint=%#x",stepNum,StartPoint);
+  //int addrStart = atoi(addr);//printf by %x
+  int addrStart;
+  sscanf(addr,"%x",&addrStart);
+  printf("stepNum=%d\taddrStart=%x",stepNum,addrStart);
   return 0;
 }
 
