@@ -90,8 +90,8 @@ static int cmd_x(char *args){
   
   for (int i=stepNum; i>=0; i--){
     uint32_t x;
-    x = vaddr_read(addrStart,4);
-    printf("x=%x\n",x);
+    x = vaddr_read(addrStart,1);
+    printf("x=0x%8x\n",x);
     addrStart+=4;
   }
   return 0;
