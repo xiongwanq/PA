@@ -87,7 +87,7 @@ static int cmd_x(char *args){
   sscanf(addr,"%x",&addrStart);
   
   printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
-  printf("%8s%8s","Address","Dword block"); 
+  printf("%-8s%-8s\n","Address","Dword block"); 
   for (int i=stepNum; i>0; i--){
     uint32_t x;
     x = vaddr_read(addrStart,4);
