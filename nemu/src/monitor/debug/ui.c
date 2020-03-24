@@ -54,11 +54,11 @@ static int cmd_info(char *args){
   if (strcmp(arg,"r") == 0){
 	//打印32位寄存器
 	for(int i=0; i<8; i++){
-	  printf("%s:\t0x%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
+	  printf("%s:\t0x%-.8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}	
 	//打印16位寄存器
     for(int i=0; i<8; i++){
-      printf("%s:\t0x%-8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
+      printf("%s:\t0x%-.8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
     }
 	//打印8位寄存器
 	for(int i=0; i<8; i++){
@@ -68,7 +68,7 @@ static int cmd_info(char *args){
 	  }else{	//对应的第二个8位寄存器
 		j=1;
 	  }
-      printf("%s:\t0x%-8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
+      printf("%s:\t0x%-.4x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
 	}
   }
   return 0;
