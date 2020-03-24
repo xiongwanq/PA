@@ -62,7 +62,7 @@ static int cmd_info(char *args){
 	  printf("%s:\t0x%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}	
     for(int i=0; i<8; i++){
-      printf("%s:\t0x%8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
+      printf("%s:\t0x%-8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
     }
 	for(int i=0; i<8; i++){
 	  int j;
