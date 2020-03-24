@@ -84,13 +84,13 @@ static int cmd_x(char *args){
   //int addrStart = atoi(addr);  #printf by %x
   int addrStart;
   sscanf(addr,"%x",&addrStart);
-  //printf("stepNum=%d\taddrStart=%x",stepNum,addrStart);
-  for (int i=stepNum; i>0; i--){
-	uint32_t x;
-	x = vaddr_read(addrStart,4);
-	printf("x=%d\n",x);
-    addrStart+=4;
-  }
+  printf("stepNum=%d\taddrStart=%x",stepNum,addrStart);
+  //for (int i=stepNum; i>0; i--){
+  //  uint32_t x;
+  //  x = vaddr_read(addrStart,4);
+  //  printf("x=%d\n",x);
+  //  addrStart+=4;
+  //}
   return 0;
 }
 
