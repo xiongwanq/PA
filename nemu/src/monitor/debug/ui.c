@@ -86,12 +86,13 @@ static int cmd_x(char *args){
   int addrStart;
   sscanf(addr,"%x",&addrStart);
   
-  printf("stepNum=%d\taddrStart=%x",stepNum,addrStart);
+  printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
   
   for (int i=stepNum; i>0; i--){
     uint32_t x;
     x = vaddr_read(addrStart,4);
-    printf("%8d\t",addrStart);
+	printf("%8s%8s","Address","Dword block");
+    printf("0x%-8x\t",addrStart);
 	printf("0x%-.8x\n",x);
     addrStart+=4;
   }
