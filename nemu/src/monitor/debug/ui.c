@@ -88,12 +88,12 @@ static int cmd_x(char *args){
   
   printf("stepNum=%d\taddrStart=%x",stepNum,addrStart);
   
-  //for (int i=stepNum; i>0; i--){
-  //  uint32_t x;
-  //  x = vaddr_read(addrStart,4);
-  //  printf("x=%d\n",x);
-  //  addrStart+=4;
-  //}
+  for (int i=stepNum; i>0; i--){
+    uint32_t x;
+    x = vaddr_read(addrStart,4);
+    printf("x=%d\n",x);
+    addrStart+=4;
+  }
   return 0;
 }
 
