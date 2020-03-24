@@ -89,6 +89,7 @@ static int cmd_x(char *args){
 	uint32_t x;
 	x = vaddr_read(addrStart,4);
 	printf("x=%d\n",x);
+    addrStart+=4;
   }
   return 0;
 }
