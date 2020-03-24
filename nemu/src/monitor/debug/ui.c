@@ -28,7 +28,6 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  //printf("args=%s",args);
   cpu_exec(-1);
   return 0;
 }
@@ -37,15 +36,13 @@ static int cmd_si(char *args){
   //args="N"
   //printf("args=%s\n",args);	
   char *arg = strtok(NULL, " ");
-  int num;
-  if(arg==NULL){
+  int num;	//si[N]值
+  if(arg==NULL){	
 	num=1;
 	}
   else{
 	num = atoi(arg);
 	}
-  //printf("%d",num);
-  
   cpu_exec(num);
   return 0;
 }	
@@ -56,19 +53,21 @@ static int cmd_q(char *args) {
 
 static int cmd_info(char *args){
   char *arg = strtok(NULL, " ");  
-  //printf("args=%s\n",args);
   if (strcmp(arg,"r") == 0){
+	//打印32位寄存器
 	for(int i=0; i<8; i++){
 	  printf("%s:\t0x%8x\t%d\n", regsl[i], cpu.gpr[i]._32, cpu.gpr[i]._32);
 	}	
+	//打印16位寄存器
     for(int i=0; i<8; i++){
       printf("%s:\t0x%-8x\t%d\n", regsw[i], cpu.gpr[i]._16, cpu.gpr[i]._16);
     }
+	//打印8位寄存器
 	for(int i=0; i<8; i++){
 	  int j;
-	  if(i<=3){
+	  if(i<=3){	//16位寄存器的第一个8位寄存器
 		j=0;
-	  }else{
+	  }else{	//对应的第二个8位寄存器
 		j=1;
 	  }
       printf("%s:\t0x%-8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
@@ -79,22 +78,26 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
   char *step = strtok(NULL, " ");
-  vaddr_t stepNum = atoi(step);
+  //读取次数
+  vaddr_t stepNum = atoi(step);	
   
+  //起始位置
   char *addr = strtok(NULL, " ");
   //int addrStart = atoi(addr);  //printf by %x
   uint32_t addrStart;
-  sscanf(addr,"%x",&addrStart);
+  sscanf(addr,"%x",&addrStart);	
   
   //printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
   printf("%-8s\t%-8s ... %8s\n","Address","Dword block","Byte sequence"); 
+  //循环使用 vaddr_read 函数来读取内存
   for (int i=stepNum; i>0; i--){
     uint32_t dBlock;
     dBlock = vaddr_read(addrStart,4);
-    
-	printf("0x%-8x\t",addrStart);
+    printf("0x%-8x\t",addrStart);
 	printf("0x%-.8x  ... ",dBlock);
     uint32_t addrReStart = addrStart;
+	
+	//内循环，打印每字节
 	for(int j=1; j<=4; j++){
 	  uint32_t byteSeq;
 	  byteSeq = vaddr_read(addrReStart,1);
@@ -102,8 +105,7 @@ static int cmd_x(char *args){
 	  addrReStart += 1;
 	}
 	printf("\n");	
-
-	addrStart+=4;
+	addrStart += 4;
   }
   return 0;
 }
