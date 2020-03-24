@@ -82,11 +82,11 @@ static int cmd_x(char *args){
   vaddr_t stepNum = atoi(step);
   
   char *addr = strtok(NULL, " ");
-	//int addrStart = atoi(addr);  #printf by %x
-  int addrStart;
-  sscanf(addr,"%x",&addrStart);
+  int addrStart = atoi(addr);  //printf by %x
+  //uint32_ti addrStart;
+  //sscanf(addr,"%x",&addrStart);
   
-  printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
+  printf("stepNum=%d\taddrStart=%.8x\n",stepNum,addrStart);
   printf("%-8s\t%-8s\n","Address","Dword block"); 
   for (int i=stepNum; i>0; i--){
     uint32_t x;
