@@ -98,8 +98,8 @@ static int cmd_x(char *args){
 	for(int j=1; j<=4; j++){
 	  uint32_t byteSeq;
 	  byteSeq = vaddr_read(addrReStart,1);
-	  printf("%x ",byteSeq);
-	  addrReStart += 4;
+	  printf("%.2x ",byteSeq);
+	  addrReStart += 1;
 	}
 	printf("\n");	
 
