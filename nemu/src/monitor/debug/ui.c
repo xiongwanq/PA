@@ -87,13 +87,13 @@ static int cmd_x(char *args){
   sscanf(addr,"%x",&addrStart);
   
   //printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
-  printf("%-8s\t%-8s... %8s\n","Address","Dword block","Byte sequence"); 
+  printf("%-8s\t%-8s ... %8s\n","Address","Dword block","Byte sequence"); 
   for (int i=stepNum; i>0; i--){
     uint32_t dBlock;
     dBlock = vaddr_read(addrStart,4);
     
 	printf("0x%-8x\t",addrStart);
-	printf("0x%-.8x ... ",dBlock);
+	printf("0x%-.8x  ... ",dBlock);
     uint32_t addrReStart = addrStart;
 	for(int j=1; j<=4; j++){
 	  uint32_t byteSeq;
