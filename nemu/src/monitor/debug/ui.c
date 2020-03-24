@@ -81,7 +81,6 @@ static int cmd_x(char *args){
   
   //起始位置
   char *addr = strtok(NULL, " ");
-  //int addrStart = atoi(addr);  //printf by %x
   uint32_t addrStart;
   sscanf(addr,"%x",&addrStart);	
   
@@ -93,9 +92,9 @@ static int cmd_x(char *args){
     dBlock = vaddr_read(addrStart,4);
     printf("0x%-8x\t",addrStart);
 	printf("0x%-.8x  ... ",dBlock);
-    uint32_t addrReStart = addrStart;
-	
+    
 	//内循环，打印每字节
+	uint32_t addrReStart = addrStart;
 	for(int j=1; j<=4; j++){
 	  uint32_t byteSeq;
 	  byteSeq = vaddr_read(addrReStart,1);
