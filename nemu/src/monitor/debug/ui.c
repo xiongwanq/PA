@@ -94,10 +94,12 @@ static int cmd_x(char *args){
     
 	printf("0x%-8x\t",addrStart);
 	printf("0x%-.8x\t",dBlock);
-    for(int j=1; j<=4; j++){
+    uint32_t addrReStart = addrStart;
+	for(int j=1; j<=4; j++){
 	  uint32_t byteSeq;
-	  byteSeq = vaddr_read(addrStart,1);
+	  byteSeq = vaddr_read(addrReStart,1);
 	  printf("%x ",byteSeq);
+	  addrReStart += 4;
 	}
 	printf("\n");	
 
