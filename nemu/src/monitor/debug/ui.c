@@ -71,7 +71,7 @@ static int cmd_info(char *args){
 	  }else{
 		j=1;
 	  }
-      printf("%s:\t0x%8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
+      printf("%s:\t0x%-8x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
 	}
   }
   return 0;
