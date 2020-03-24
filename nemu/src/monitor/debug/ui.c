@@ -82,18 +82,26 @@ static int cmd_x(char *args){
   vaddr_t stepNum = atoi(step);
   
   char *addr = strtok(NULL, " ");
-  int addrStart = atoi(addr);  //printf by %x
-  //uint32_ti addrStart;
-  //sscanf(addr,"%x",&addrStart);
+  //int addrStart = atoi(addr);  //printf by %x
+  uint32_t addrStart;
+  sscanf(addr,"%x",&addrStart);
   
-  printf("stepNum=%d\taddrStart=%.8x\n",stepNum,addrStart);
+  //printf("stepNum=%d\taddrStart=%x\n",stepNum,addrStart);
   printf("%-8s\t%-8s\n","Address","Dword block"); 
   for (int i=stepNum; i>0; i--){
-    uint32_t x;
-    x = vaddr_read(addrStart,4);
-    printf("0x%-8x\t",addrStart);
-	printf("0x%-.8x\n",x);
-    addrStart+=4;
+    uint32_t dBlock;
+    dBlock = vaddr_read(addrStart,4);
+    
+	printf("0x%-8x\t",addrStart);
+	printf("0x%-.8x\t",dBlock);
+    for(int j=1; j<=4; j++){
+	  uint32_t byteSeq;
+	  byteSeq = vaddr_read(addrStart,1);
+	  printf("%x ",byteSeq);
+	}
+	printf("\n");	
+
+	addrStart+=4;
   }
   return 0;
 }
