@@ -21,14 +21,15 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  {"0x[0-9a-fA-F]+", TK_HEXADECIMAL},
-  {"[1-9][0-9]*", TK_DECIMAL},
-  {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},
-  {"\\(", '('},
-  {"\\)", ')'},
-  {"\\-", '-'},
-  {"\\*", '*'},
-  {"/", '/'},
+
+  {"0x[0-9a-fA-F]+", TK_HEXADECIMAL},					  // hexadecimal
+  {"[1-9][0-9]*", TK_DECIMAL},							  // decimal
+  {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},   // register
+  {"\\(", '('},			// '('
+  {"\\)", ')'},			// ')'
+  {"\\-", '-'},			// subtraction
+  {"\\*", '*'},			// multiply
+  {"/", '/'},			// division
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus

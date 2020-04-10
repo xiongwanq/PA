@@ -107,6 +107,11 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_p(char *args){
+  printf("%s",args);
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -120,6 +125,7 @@ static struct {
   { "si", "[N]Stop the program after N steps, default value is 1", cmd_si },
   { "info", "[r]Print register status\t", cmd_info },
   { "x", "Scan memory", cmd_x},
+  { "p", "Evaluate expression", cmd_p},
 
   /* TODO: Add more commands */
 
