@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_HEXADECIMAL=16, TK_DECIMAL=10, TK_REG, TK_EQ
+  TK_NOTYPE = 256, TK_HEXADECIMAL=16, TK_DECIMAL=10, TK_REG = 9, TK_EQ = 1
 
   /* TODO: Add more token types */
 
@@ -89,7 +89,13 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+		  case '+':{
+            printf("%d\n",rules[i].token_type); 
+			tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str,substr_start,substr_len);
+            nr_token++;
+          }break;
+		  default: TODO();
         }
 
         break;
@@ -104,6 +110,38 @@ static bool make_token(char *e) {
 
   return true;
 }
+
+//uint32_t eval(int p, int q) {
+//    if (p > q) {
+//        /* Bad expression */
+//		printf("Bad expression");
+//    }
+//    else if (p == q) {
+//        /* Single token.
+//        * For now this token should be a number.
+//        * Return the value of the number.
+//        */
+//    }
+//    else if (check_parentheses(p, q) == true) {
+//        /* The expression is surrounded by a matched pair of parentheses.
+//        * If that is the case, just throw away the parentheses.
+//        */
+//        return eval(p + 1, q - 1);
+//    }
+//    else {
+//        /* We should do more things here. */
+//		op=
+//		uint32_t val1 = eval(p, op - 1);
+//		uint32_t val2 = eval(op + 1, q);
+//
+//		switch (op_type){
+//		  case '+': return val1 + val2;
+//		  case '-': return val1 - val2;
+//		  case '*': return val1 * val2;
+//		  case '/': return val1 / val2;
+//		  default: assert(0);
+//    }
+//}
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {

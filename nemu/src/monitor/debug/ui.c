@@ -109,9 +109,9 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
   printf("%s\n",args);
-  bool success;
-  uint32_t value = expr(args, &success);
-  printf("%d\n", value);
+//  bool success;
+//  uint32_t value = expr(args, &success);
+//  printf("%d\n", value);
   return 0;
 }
 
