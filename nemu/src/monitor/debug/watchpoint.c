@@ -20,4 +20,73 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
+WP* new_wp(){
+  WP *ptr = free_;
+  if(ptr){
+    free_ = free_->next;
+    ptr->next = head;
+    head = ptr;
+//    free(ptr);
+    return head;
+  }else{
+	assert(0);
+  }
+}
 
+void free_wp(WP *wp){
+  if(wp == head){
+	head = head->next;
+	wp->next = free_;
+	free_ = wp;
+//	free(wp)；
+  }else{
+    WP *pre_wp = head;
+    while(pre_wp->next != wp){
+    	pre_wp = pre_wp->next;
+    }
+    pre_wp->next = wp->next;
+    wp->next = free_;
+    free_ = wp;
+//    free(wp);
+  }
+}
+
+int set_watchpoint(char *e){
+  WP *wp = new_wp();
+  strcpy(wp->expr,e);
+  bool success;
+  wp->old_val = expr(e,&success);
+  if(success){
+    printf("wp->expr=%s\told_val=%d\n",wp->expr,wp->old_val);
+    return wp->NO;
+  }else{
+	printf("no value\n");
+    return 0;
+  }
+}
+
+bool delete_watchpoint(int NO){
+  WP *wp = head;
+  while(wp->NO != NO){
+	wp = wp->next;
+  }
+  if(wp){
+	free_wp(wp);
+    return true;
+  }else{
+	printf("no such watchpoint");
+	return false;
+  }
+}
+
+void list_watchpoint(){
+  WP *wp = head;
+  printf("%4s%10s%10s","NO","EXPR","Old Value");
+  while(wp){
+	printf("%4d%10s%#x",wp->NO,wp->expr,wp->old_val);
+  }
+}
+
+WP* scan_watchpoint(){
+  return NULL;  
+}

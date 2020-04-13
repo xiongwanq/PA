@@ -51,6 +51,7 @@ static int cmd_q(char *args) {
 
 static int cmd_info(char *args){
   char *arg = strtok(NULL, " ");  
+
   if (strcmp(arg,"r") == 0){
 	//打印32位寄存器
 	for(int i=0; i<8; i++){
@@ -71,6 +72,11 @@ static int cmd_info(char *args){
       printf("%s:\t0x%-8.4x\t%d\n",regsb[i], cpu.gpr[i%4]._8[j], cpu.gpr[i%4]._8[j]);
 	}
   }
+
+  if(strcmp(arg,"w") == 0){
+    list_watchpoint();
+  }
+
   return 0;
 }
 
@@ -108,12 +114,30 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
+//  init_regex();
   printf("%s\n",args);
-//  bool success;
-//  uint32_t value = expr(args, &success);
-//  printf("%d\n", value);
+  bool success;
+  uint32_t value = expr(args,&success);
+  if(success){
+    printf("%d\n", value);
+  }else{
+    printf("no value\n");
+  }
   return 0;
 }
+
+static int cmd_w(char *args){
+  set_watchpoint(args);
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int NO;
+  sscanf(args,"%d",&NO); 
+  delete_watchpoint(NO);
+  return 0;
+}
+
 
 static int cmd_help(char *args);
 
@@ -126,10 +150,11 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "[N]Stop the program after N steps, default value is 1", cmd_si },
-  { "info", "[r]Print register status\t", cmd_info },
+  { "info", "[r]Print register status\t[w]Show all watchpoints", cmd_info },
   { "x", "Scan memory", cmd_x},
   { "p", "Evaluate expression", cmd_p},
-
+  { "w", "Set watchpoints", cmd_w},
+  { "d", "delete watchpoints", cmd_d} 
   /* TODO: Add more commands */
 
 };

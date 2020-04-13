@@ -1,5 +1,4 @@
 #include "nemu.h"
-
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -7,8 +6,8 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_HEXADECIMAL=16, TK_DECIMAL=10, TK_REG = 9, TK_EQ = 1
-
+  TK_NOTYPE = 256, TK_HEX = 16, TK_DEC = 10, TK_REG = 9, TK_EQ = 1,TK_UEQ = -1, TK_AND = 1, TK_OR = 0, TK_NOT = -2, TK_POINT = 257, TK_NEG = -3
+  
   /* TODO: Add more token types */
 
 };
@@ -22,18 +21,21 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"0x[0-9a-fA-F]+", TK_HEXADECIMAL},					  // hexadecimal
-  {"[1-9][0-9]*", TK_DECIMAL},							  // decimal
+  {"0x[0-9a-fA-F]+", TK_HEX},					  // hexadecimal
+  {"[1-9][0-9]*", TK_DEC},							  // decimal
   {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},   // register
   {"\\(", '('},			// '('
   {"\\)", ')'},			// ')'
+  {" +", TK_NOTYPE},    // spaces
   {"\\-", '-'},			// subtraction
   {"\\*", '*'},			// multiply
   {"/", '/'},			// division
-
+  {"==", TK_EQ},        // equal
+  {"!=", TK_UEQ},		// unequal
+  {"&&", TK_AND},		// and
+  {"||", TK_OR},		// or
+  {"!", TK_NOT},		// not
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -89,12 +91,47 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-		  case '+':{
-            printf("%d\n",rules[i].token_type); 
+		  case TK_HEX:
 			tokens[nr_token].type = rules[i].token_type;
-            strncpy(tokens[nr_token].str,substr_start,substr_len);
-            nr_token++;
-          }break;
+			strncpy(tokens[nr_token].str, substr_start, substr_len);
+			nr_token ++;
+			break;
+		  case TK_DEC:
+			tokens[nr_token].type = rules[i].token_type;
+			strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token ++;
+			break;
+		  case TK_REG:
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token ++;
+			break;
+		  case '(':
+		    tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token ++;
+            break; 
+          case ')': 
+			printf("%d\n",rules[i].token_type); 
+			tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token ++;
+            break;
+		  case '-':
+			printf("%d\n",rules[i].token_type);
+			tokens[nr_token].type = rules[i].token_type;
+			strncpy(tokens[nr_token].str, substr_start, substr_len);
+			nr_token ++;
+			break;
+		  case '*':
+		  case '/':
+		  case '+':
+		  case TK_EQ:
+			printf("%d\n",rules[i].token_type);
+			tokens[nr_token].type = rules[i].token_type;
+			strncpy(tokens[nr_token].str, substr_start, substr_len);
+			nr_token ++;
+			break;
 		  default: TODO();
         }
 
@@ -111,37 +148,112 @@ static bool make_token(char *e) {
   return true;
 }
 
-//uint32_t eval(int p, int q) {
-//    if (p > q) {
-//        /* Bad expression */
-//		printf("Bad expression");
-//    }
-//    else if (p == q) {
-//        /* Single token.
-//        * For now this token should be a number.
-//        * Return the value of the number.
-//        */
-//    }
-//    else if (check_parentheses(p, q) == true) {
-//        /* The expression is surrounded by a matched pair of parentheses.
-//        * If that is the case, just throw away the parentheses.
-//        */
-//        return eval(p + 1, q - 1);
-//    }
-//    else {
-//        /* We should do more things here. */
-//		op=
-//		uint32_t val1 = eval(p, op - 1);
-//		uint32_t val2 = eval(op + 1, q);
-//
-//		switch (op_type){
-//		  case '+': return val1 + val2;
-//		  case '-': return val1 - val2;
-//		  case '*': return val1 * val2;
-//		  case '/': return val1 / val2;
-//		  default: assert(0);
-//    }
-//}
+bool check_parentheses(int p,int q){
+  int num_left = 0;
+
+  for(int i = p;i <= q ;i++){
+	  if(tokens[i].type == '('){
+	    num_left ++;
+      }else if(tokens[i].type == ')'){
+		if(num_left != 0){
+			num_left --;
+	    }else{
+			return false;
+	    }
+	  }
+  }
+
+  if(num_left == 0){
+	return true;
+  }else{
+	return false;
+  } 
+}
+
+uint32_t find_dominated_op(int p,int q){
+  uint32_t S[1000];
+  int ptr=0;
+  int low_index = 0;
+  bool pre_parentheses = false;
+
+  for(int i = p;i <= q;i++){
+	if(tokens[i].type == '+'||tokens[i].type == '-'||tokens[i].type == '*'||tokens[i].type == '/'||tokens[i].type == '('){
+		if((tokens[i].type == '+'||tokens[i].type == '-')&&!pre_parentheses){
+			low_index = i;
+		}else if(tokens[i].type == '('){
+			pre_parentheses = true;
+		}
+		S[ptr++] = tokens[i].type;
+	}else if(tokens[i].type == ')'){
+		pre_parentheses = false;
+		while(S[ptr] != '('){
+			ptr--;
+		}
+		ptr--;
+	}
+  }
+
+  if(low_index != 0){
+	return tokens[low_index].type;
+  }else{
+	return S[ptr];
+  }
+}
+
+uint32_t eval(int p, int q) {
+  if (p > q) {
+    /* Bad expression */
+	printf("Bad expression");
+	return -1;
+	}
+  else if (p == q) {
+    /* Single token.
+    * For now this token should be a number.
+    * Return the value of the number.
+    */
+	uint32_t num;
+	if(tokens[p].type == TK_HEX){
+		sscanf(tokens[p].str,"%x",&num);
+		return num;
+	}else if(tokens[p].type == TK_DEC){
+		sscanf(tokens[p].str,"%d",&num);
+		return num;
+	}else if(tokens[p].type == TK_REG){
+		char *reg = "$";
+		strcat(reg,tokens[p].str);
+		for(int i = 0;i < 8;i ++ ){
+			if(strcmp(reg,regsl[i]) == 0){
+				return reg_l(i);
+			}
+		}
+		if(strcmp(reg,"eip") == 0){
+			return cpu.eip;
+		}
+		return -1;
+	}	
+    else return -1;
+  }
+  else if (check_parentheses(p, q) == true) {
+    /* The expression is surrounded by a matched pair of parentheses.
+    * If that is the case, just throw away the parentheses.
+    */
+    return eval(p + 1, q - 1);
+  }
+  else {
+    /* We should do more things here. */
+	uint32_t op = find_dominated_op(p, q);
+	uint32_t val1 = eval(p, op - 1);
+	uint32_t val2 = eval(op + 1, q);
+
+	switch (tokens[op].type){
+	  case '+': return val1 + val2;
+	  case '-': return val1 - val2;
+	  case '*': return val1 * val2;
+	  case '/': return val1 / val2;
+	  default: assert(0);
+    }
+  }
+}
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -150,7 +262,20 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  //TODO();
+  *success = true;
+  for(int i = 0;i < nr_token;i ++){
+	if(tokens[i].type == '*'&&(i == 0||tokens[i - 1].type != TK_HEX||tokens[i - 1].type != TK_DEC) ) {
+        tokens[i].type = TK_POINT;
+	}
+  }
+  for(int i = 0;i < nr_token;i ++){
+	if(tokens[i].type == '-'&&(i == 0||tokens[i - 1].type != TK_HEX||tokens[i - 1].type != TK_DEC)){
+		tokens[i].type = TK_NEG;
+	}
+  }
+  uint32_t p = 0,q = nr_token;
+  printf("nr_tokens=%d\n",q);
+  return eval(p,q);
 }
+
