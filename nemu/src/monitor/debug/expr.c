@@ -275,7 +275,7 @@ uint32_t expr(char *e, bool *success) {
 		tokens[i].type = TK_NEG;
 	}
   }
-  uint32_t p = 0,q = nr_token;
+  uint32_t p = 1,q = nr_token;
   printf("nr_tokens=%d\n",q);
   return eval(p,q);
 }
