@@ -230,6 +230,7 @@ uint32_t eval(int p, int q) {
 		return num;
 	}
     else if(tokens[p].type == TK_REG){
+		printf("reg!233!");
 		char *reg = "$";
 		strcat(reg,tokens[p].str);
 		for(int i = 0;i < 8;i ++ ){
