@@ -154,7 +154,7 @@ uint32_t level(int token_type){
   if(token_type == TK_NEG||token_type == TK_POINT||token_type == '!'){
     return 1;
   }
-  else if(token_type == '/'||token_type == '*'){
+  else if(token_type == '*'||token_type == '/'){
     return 2;
   }
   else if(token_type == '+'||token_type == '-'){
@@ -170,7 +170,7 @@ uint32_t level(int token_type){
     return 6;
   }
   else{  
-    return 100;   //number's level
+    return 0;   //number's level
   }
 }
 
@@ -190,7 +190,7 @@ uint32_t find_dominated_op(int p,int q){
     if(!between_parentheses){
       index_level = level(tokens[i].type);
 	  printf("str=%s,index_level=%d,dominate_level=%d\n",tokens[i].str,index_level,dominate_level);
-      if(index_level <= dominate_level){
+      if(index_level >= dominate_level){
          dominate = i;
          dominate_level = index_level;
       }
