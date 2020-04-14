@@ -37,17 +37,6 @@ WP* new_wp(){
 		head = free_p;
 	}
 	return free_p;
-
-//	if(head == NULL){
-//	    ptr->next = head;
-//	    head = ptr;
-//	}
-//	else{
-//        ptr->next = head->next;
-//		head->next = ptr;
-//	}
-//	printf("return ptr->NO:%d\n",ptr->NO);
-//    return ptr;
   }else{
 	assert(0);
   }
