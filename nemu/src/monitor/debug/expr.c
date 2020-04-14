@@ -230,16 +230,18 @@ uint32_t eval(int p, int q) {
 		return num;
 	}
     else if(tokens[p].type == TK_REG){
-		printf("reg!233!\n");
+		printf("reg!\n");
 		printf("reg_name=%s\n",tokens[p].str);
 		printf("regsl[1]=%s",regsl[1]);
 		for(int i = 0;i < 8;i ++ ){
-			if(strcmp(tokens[p].str,regsl[i]) == 0){
+			char reg[20]="$";
+			strcat(reg,regsl[i]);
+			if(strcmp(tokens[p].str,reg) == 0){
 				printf("reg_l(%d)=%d\n",i,reg_l(i));
 				return reg_l(i);
 			}
 		}
-		if(strcmp(tokens[p].str, "eip") == 0){
+		if(strcmp(tokens[p].str, "$eip") == 0){
 			return cpu.eip;
 		}
 		printf("232!");
