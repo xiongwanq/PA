@@ -267,7 +267,7 @@ uint32_t eval(int p, int q) {
 	  switch (tokens[op].type){
 	    case TK_NEG: return -val;
 	    case TK_POINT: printf("TK_POINT:");return vaddr_read(val, 4);
-	    case '!': return !val;
+	    case '!': return ~val;
 		default: assert(0);
 	  }
     }
