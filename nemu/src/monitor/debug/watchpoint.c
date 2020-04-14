@@ -28,11 +28,11 @@ WP* new_wp(){
 	    ptr->next = head;
 	    head = ptr;
 	}
-	else{
-        ptr->next = head->next;
-		head->next = ptr;
-	}
-    return head;
+//	else{
+//        ptr->next = head->next;
+//		head->next = ptr;
+//	}
+    return ptr;
   }else{
 	assert(0);
   }
@@ -55,14 +55,12 @@ void free_wp(WP *wp){
 }
 
 int set_watchpoint(char *e){
-  printf("52");
   WP *wp = new_wp();
-  printf("54");
   strcpy(wp->expr,e);
   bool success;
   wp->old_val = expr(e,&success);
   if(success){
-    printf("wp->expr=%s\told_val=%d\n",wp->expr,wp->old_val);
+    printf("wp->expr=%s\told_val=%#x\n",wp->expr,wp->old_val);
     return wp->NO;
   }else{
 	printf("no value\n");
