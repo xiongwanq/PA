@@ -152,23 +152,23 @@ bool check_parentheses(int p,int q){
   } 
 }
 
-uint32_t level(int token_id){
-  if(tokens[token_id].type == TK_NEG||tokens[token_id].type == TK_POINT||tokens[token_id].type == '!'){
+uint32_t level(int token_type){
+  if(token_type == TK_NEG||token_type == TK_POINT||token_type == '!'){
     return 1;
   }
-  else if(tokens[token_id].type == '/'||tokens[token_id].type == '*'){
+  else if(token_type == '/'||token_type == '*'){
     return 2;
   }
-  else if(tokens[token_id].type == '+'||tokens[token_id].type == '-'){
+  else if(token_type == '+'||token_type == '-'){
     return 3;
   }
-  else if(tokens[token_id].type == TK_EQ||tokens[token_id].type == TK_UEQ){
+  else if(token_type == TK_EQ||token_type == TK_UEQ){
     return 4;
   }
-  else if(tokens[token_id].type == '&'){
+  else if(token_type == '&'){
     return 5;
   }
-  else if(tokens[token_id].type == '|'){
+  else if(token_type == '|'){
     return 6;
   }
   else{  
