@@ -207,27 +207,34 @@ uint32_t eval(int p, int q) {
     * For now this token should be a number.
     * Return the value of the number.
     */
+	printf("single token!\n");
 	uint32_t num;
 	if(tokens[p].type == TK_HEX){
 		sscanf(tokens[p].str,"%x",&num);
+		printf("num=%d",num);
 		return num;
-	}else if(tokens[p].type == TK_DEC){
+	}
+    else if(tokens[p].type == TK_DEC){
 		sscanf(tokens[p].str,"%d",&num);
+		printf("num=%x",num);
 		return num;
-	}else if(tokens[p].type == TK_REG){
+	}
+    else if(tokens[p].type == TK_REG){
 		char *reg = "$";
 		strcat(reg,tokens[p].str);
 		for(int i = 0;i < 8;i ++ ){
 			if(strcmp(reg,regsl[i]) == 0){
+				printf("reg_l(%d)=%d",i,reg_l(i));
 				return reg_l(i);
 			}
 		}
 		if(strcmp(reg,"eip") == 0){
 			return cpu.eip;
 		}
+		printf("232!");
 		return -1;
-	}	
-    else return -1;
+	}
+    else {printf("234!");return -1;}
   }
   else if (check_parentheses(p, q) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
