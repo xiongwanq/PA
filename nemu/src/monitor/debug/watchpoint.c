@@ -21,19 +21,26 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 WP* new_wp(){
-  WP *ptr = free_;
-  if(ptr){
+  WP *free_p = free_;
+  WP *head_p = head;
+  if(free_p){
     free_ = free_->next;
-	if(head == NULL){
-	    ptr->next = head;
-	    head = ptr;
+	while(head_p->next){
+		head_p = head_p->next;
 	}
+	head_p->next = free_p;
+	return free_p;
+
+//	if(head == NULL){
+//	    ptr->next = head;
+//	    head = ptr;
+//	}
 //	else{
 //        ptr->next = head->next;
 //		head->next = ptr;
 //	}
-	printf("return ptr->NO:%d\n",ptr->NO);
-    return ptr;
+//	printf("return ptr->NO:%d\n",ptr->NO);
+//    return ptr;
   }else{
 	assert(0);
   }
