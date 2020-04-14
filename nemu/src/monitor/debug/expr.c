@@ -233,6 +233,7 @@ uint32_t eval(int p, int q) {
 		printf("reg!233!\n");
 		char *reg = "$";
 		strcat(reg,tokens[p].str);
+		printf("reg=%s\n",reg);
 		for(int i = 0;i < 8;i ++ ){
 			if(strcmp(reg,regsl[i]) == 0){
 				printf("reg_l(%d)=%d\n",i,reg_l(i));
