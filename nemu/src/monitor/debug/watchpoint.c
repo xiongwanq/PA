@@ -32,6 +32,7 @@ WP* new_wp(){
 //        ptr->next = head->next;
 //		head->next = ptr;
 //	}
+	printf("return ptr->NO:%d\n",ptr->NO);
     return ptr;
   }else{
 	assert(0);
