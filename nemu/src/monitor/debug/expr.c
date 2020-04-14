@@ -23,7 +23,7 @@ static struct rule {
 
   {"0x[0-9a-fA-F]+", TK_HEX},					  // hexadecimal
   {"[1-9][0-9]*", TK_DEC},							  // decimal
-  {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},   // register
+  {"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", TK_REG},   // register
   {"\\(", '('},			// '('
   {"\\)", ')'},			// ')'
   {"\\+", '+'},			// add 
