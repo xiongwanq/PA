@@ -30,6 +30,7 @@ WP* new_wp(){
 		  head_p = head_p->next;
 	    }
 		head_p->next = free_p;
+		free_p->next = NULL;
 	}
 	else{
 		free_p->next = head;
