@@ -84,6 +84,7 @@ void list_watchpoint(){
   printf("%4s%10s%10s","NO","EXPR","Old Value");
   while(wp){
 	printf("%4d%10s%#x",wp->NO,wp->expr,wp->old_val);
+	wp = wp->next;
   }
 }
 
