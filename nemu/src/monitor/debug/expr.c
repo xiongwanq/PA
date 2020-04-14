@@ -127,6 +127,10 @@ static bool make_token(char *e) {
 }
 
 bool check_parentheses(int p,int q){
+  if(tokens[p].type != '(' && tokens[q].type != ')'){
+	return false;
+  }
+
   int num_left = 0;
 
   for(int i = p;i <= q ;i++){
@@ -248,7 +252,7 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-	printf("op:%s\n",tokens[op].str);
+	printf("op=%s\n",tokens[op].str);
 	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
 	  uint32_t val = eval(op, op+1);
 	  switch (tokens[op].type){
@@ -261,6 +265,7 @@ uint32_t eval(int p, int q) {
 	else{
 	  uint32_t val1 = eval(p, op - 1);
 	  uint32_t val2 = eval(op + 1, q);
+	  printf("val1=%d,val2=%d\n",val1,val2);
 	  switch (tokens[op].type){
 		case '+': return val1 + val2;
 		case '-': return val1 - val2;
