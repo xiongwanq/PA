@@ -24,8 +24,8 @@ WP* new_wp(){
   WP *ptr = free_;
   if(ptr){
     free_ = free_->next;
-    ptr->next = head->next;
-    head->next = ptr;
+    ptr->next = head;
+    head = ptr;
     return head;
   }else{
 	assert(0);
