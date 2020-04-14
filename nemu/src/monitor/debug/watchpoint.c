@@ -101,7 +101,9 @@ WP* scan_watchpoint(){
   while(wp->next){
     wp->new_val = expr(wp->expr, &success);
     if(success){
-		if(wp->old_val == wp->new_val){
+		if(wp->old_val != wp->new_val){
+			printf("%-4s%-20s%-20s%20s\n","NO","EXPR","Old Value","New Value");
+			printf("%-4d%-20s0x%-18x0x%-20x\n",wp->NO,wp->expr,wp->old_val,wp->new_val);
 			wp->old_val = wp->new_val;
 			return wp;
 		}
