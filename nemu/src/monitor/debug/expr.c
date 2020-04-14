@@ -6,7 +6,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_HEX = 16, TK_DEC = 10, TK_REG = 9, TK_EQ = 1,TK_UEQ = -1, TK_AND = 1, TK_OR = 0, TK_NOT = -2, TK_POINT = 257, TK_NEG = -3
+  TK_NOTYPE = 256, TK_EQ = 1, TK_UEQ = -1, TK_HEX = 16, TK_DEC = 10, TK_REG = 9, TK_POINT = 257, TK_NEG = -2
   
   /* TODO: Add more token types */
 
@@ -32,9 +32,9 @@ static struct rule {
   {"/", '/'},			// division
   {"==", TK_EQ},        // equal
   {"!=", TK_UEQ},		// unequal
-  {"&&", TK_AND},		// and
-  {"||", TK_OR},		// or
-  {"!", TK_NOT},		// not
+  {"&&", '&'},			// and
+  {"||", '|'},			// or
+  {"!", '!'},			// not
   {" +", TK_NOTYPE},    // spaces
 };
 
@@ -170,34 +170,52 @@ bool check_parentheses(int p,int q){
   } 
 }
 
+uint32_t level(int token_id){
+  if(tokens[token_id].type == TK_NEG||tokens[token_id].type == TK_POINT||tokens[token_id].type == '!'){
+    return 1;
+  }
+  else if(tokens[token_id].type == '/'||tokens[token_id].type == '*'){
+    return 2;
+  }
+  else if(tokens[token_id].type == '+'||tokens[token_id].type == '-'){
+    return 3;
+  }
+  else if(tokens[token_id].type == TK_EQ||tokens[token_id].type == TK_UEQ){
+    return 4;
+  }
+  else if(tokens[token_id].type == '&'){
+    return 5;
+  }
+  else if(tokens[token_id].type == '|'){
+    return 6;
+  }
+  else{  
+    return 100;   //number's level
+  }
+}
+
 uint32_t find_dominated_op(int p,int q){
-  uint32_t S[1000];
-  int ptr=0;
-  int low_index = 0;
-  bool pre_parentheses = false;
+  bool between_parentheses = false;
+  uint32_t dominate = p;
+  uint32_t dominate_level = level(tokens[p].type);
+  uint32_t index_level;
 
-  for(int i = p;i <= q;i++){
-	if(tokens[i].type == '+'||tokens[i].type == '-'||tokens[i].type == '*'||tokens[i].type == '/'||tokens[i].type == '('){
-		if((tokens[i].type == '+'||tokens[i].type == '-')&&!pre_parentheses){
-			low_index = i;
-		}else if(tokens[i].type == '('){
-			pre_parentheses = true;
-		}
-		S[ptr++] = tokens[i].type;
-	}else if(tokens[i].type == ')'){
-		pre_parentheses = false;
-		while(S[ptr] != '('){
-			ptr--;
-		}
-		ptr--;
-	}
+  for(int i=p;i<=q;i++){
+    if(tokens[i].type == '('){
+      between_parentheses = true;
+    }
+    if(tokens[i].type == ')'){
+      between_parentheses = false;
+    }
+    if(!between_parentheses){
+      index_level = level(tokens[i].type);
+      if(index_level <= dominate_level){
+         dominate = i;
+         dominate_level = index_level;
+      }
+    }
   }
-
-  if(low_index != 0){
-	return tokens[low_index].type;
-  }else{
-	return S[ptr];
-  }
+  return dominate;
 }
 
 uint32_t eval(int p, int q) {
@@ -242,16 +260,30 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-	uint32_t val1 = eval(p, op - 1);
-	uint32_t val2 = eval(op + 1, q);
 
-	switch (tokens[op].type){
-	  case '+': return val1 + val2;
-	  case '-': return val1 - val2;
-	  case '*': return val1 * val2;
-	  case '/': return val1 / val2;
-	  case TK_EQ: return val1 ==val2;
-	  default: assert(0);
+	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
+	  uint32_t val = eval(op, op+1);
+	  switch (tokens[op].type){
+	    case TK_NEG: return -val;
+	    case TK_POINT: printf("TK_POINT:");return val;
+	    case '!': return !val;
+		default: assert(0);
+	  }
+    }
+	else{
+	  uint32_t val1 = eval(p, op - 1);
+	  uint32_t val2 = eval(op + 1, q);
+	  switch (tokens[op].type){
+		case '+': return val1 + val2;
+		case '-': return val1 - val2;
+		case '*': return val1 * val2;
+		case '/': return val1 / val2;
+		case TK_EQ: return val1 == val2;
+		case TK_UEQ: return val1 != val2;
+		case '&': return val1 & val2;
+		case '|': return val1 | val2;
+		default: assert(0);
+      }
     }
   }
 }
