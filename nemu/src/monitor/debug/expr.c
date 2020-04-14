@@ -193,6 +193,7 @@ uint32_t find_dominated_op(int p,int q){
       }
     }
   }
+  printf("dominate:%d",dominate);
   return dominate;
 }
 
