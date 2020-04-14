@@ -271,7 +271,7 @@ uint32_t eval(int p, int q) {
 		case '-': return val1 - val2;
 		case '*': return val1 * val2;
 		case '/': 
-			Assert(val2 == 0, "cannot devide 0!");
+			Assert(val2 != 0, "cannot devide 0!");
 			return val1 / val2;
 		case TK_EQ: return val1 == val2;
 		case TK_UEQ: return val1 != val2;
