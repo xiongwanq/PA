@@ -220,11 +220,13 @@ uint32_t eval(int p, int q) {
 	printf("type:%s\n",tokens[p].str);
 	uint32_t num;
 	if(tokens[p].type == TK_HEX){
+		printf("hex!");
 		sscanf(tokens[p].str,"%x",&num);
 		printf("num=%d",num);
 		return num;
 	}
     else if(tokens[p].type == TK_DEC){
+		printf("hex!");
 		sscanf(tokens[p].str,"%d",&num);
 		printf("num=%x",num);
 		return num;
