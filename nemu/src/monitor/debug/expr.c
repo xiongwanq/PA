@@ -26,7 +26,7 @@ static struct rule {
   {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},   // register
   {"\\(", '('},			// '('
   {"\\)", ')'},			// ')'
-  {"\\+", '+'},    // spaces
+  {"\\+", '+'},			// add 
   {"\\-", '-'},			// subtraction
   {"\\*", '*'},			// multiply
   {"/", '/'},			// division
@@ -191,6 +191,7 @@ uint32_t find_dominated_op(int p,int q){
     }
     if(!between_parentheses){
       index_level = level(tokens[i].type);
+	  printf("str=%s,index_level=%d,dominate_level=%d\n",tokens[i].str,index_level,dominate_level);
       if(index_level <= dominate_level){
          dominate = i;
          dominate_level = index_level;
