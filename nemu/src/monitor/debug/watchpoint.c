@@ -60,7 +60,7 @@ int set_watchpoint(char *e){
   bool success;
   wp->old_val = expr(e,&success);
   if(success){
-    printf("wp->expr=%s\told_val=%#x\n",wp->expr,wp->old_val);
+    printf("wp->NO=%d,wp->expr=%s,old_val=%#x\n",wp->NO,wp->expr,wp->old_val);
     return wp->NO;
   }else{
 	printf("no value\n");
