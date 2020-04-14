@@ -286,7 +286,7 @@ uint32_t expr(char *e, bool *success) {
 	}
   }
   uint32_t p = 0,q = nr_token - 1;
-  printf("nr_tokens=%d\n",q);
+  printf("p=%d,q=%d\n",p,q);
   return eval(p,q);
 }
 
