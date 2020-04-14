@@ -92,44 +92,22 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
 		  case TK_HEX:
-			tokens[nr_token].type = rules[i].token_type;
-			strncpy(tokens[nr_token].str, substr_start, substr_len);
-			nr_token ++;
-			break;
 		  case TK_DEC:
-			tokens[nr_token].type = rules[i].token_type;
-			strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token ++;
-			break;
 		  case TK_REG:
-            tokens[nr_token].type = rules[i].token_type;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token ++;
-			break;
 		  case '(':
-		    tokens[nr_token].type = rules[i].token_type;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token ++;
-            break; 
           case ')': 
-			printf("%d\n",rules[i].token_type); 
-			tokens[nr_token].type = rules[i].token_type;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token ++;
-            break;
 		  case '-':
-			printf("%d\n",rules[i].token_type);
-			tokens[nr_token].type = rules[i].token_type;
-			strncpy(tokens[nr_token].str, substr_start, substr_len);
-			nr_token ++;
-			break;
 		  case '*':
 		  case '/':
 		  case '+':
+		  case TK_UEQ:
 		  case TK_EQ:
-			printf("%d\n",rules[i].token_type);
+		  case '&':
+		  case '|':
 			tokens[nr_token].type = rules[i].token_type;
 			strncpy(tokens[nr_token].str, substr_start, substr_len);
+			printf("token[%d]:\ttype:%d,",i,tokens[i].type);
+			printf("str:%s\n",tokens[i].str);
 			nr_token ++;
 			break;
 		  default: break;
