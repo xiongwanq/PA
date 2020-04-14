@@ -25,10 +25,16 @@ WP* new_wp(){
   WP *head_p = head;
   if(free_p){
     free_ = free_->next;
-	while(head_p->next){
-		head_p = head_p->next;
+	if(head_p){
+		while(head_p->next){
+		  head_p = head_p->next;
+	    }
+		head_p->next = free_p;
 	}
-	head_p->next = free_p;
+	else{
+		free_p->next = head;
+		head = free_p;
+	}
 	return free_p;
 
 //	if(head == NULL){
