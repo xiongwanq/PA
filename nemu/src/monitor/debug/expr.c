@@ -257,9 +257,9 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-	printf("op_str=%s,op_id=%d\n",tokens[op].str,op);
+	printf(",op_str=%s,op_id=%d\n",tokens[op].str,op);
 	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
-	  uint32_t val = eval(op, op+1);
+	  uint32_t val = eval(p+1, q);
 	  switch (tokens[op].type){
 	    case TK_NEG: return -val;
 	    case TK_POINT: printf("TK_POINT:");return val;
