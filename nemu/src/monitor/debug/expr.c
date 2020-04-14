@@ -273,7 +273,8 @@ uint32_t eval(int p, int q) {
 		case '/': 
 			if(val2 == 0){
 				printf("cannot devide 0!");
-				assert(0);
+				return -1;
+				//assert(0);
 			}
 			else
 				return val1 / val2;
