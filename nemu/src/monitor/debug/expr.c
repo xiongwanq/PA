@@ -33,7 +33,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"!=", TK_UEQ},		// unequal
   {"&&", '&'},			// and
-  {"||", '|'},			// or
+  {"\\|\\|", '|'},		// or
   {"!", '!'},			// not
   {" +", TK_NOTYPE},    // spaces
 };
