@@ -108,8 +108,8 @@ static bool make_token(char *e) {
 			tokens[nr_token].type = rules[i].token_type;
 			memset(tokens[nr_token].str, 0, sizeof(tokens[nr_token].str));
 			strncpy(tokens[nr_token].str, substr_start, substr_len);
-			printf("token[%d]:\ttype:%d,",nr_token,tokens[nr_token].type);
-			printf("str:%s\n",tokens[nr_token].str);
+//			printf("token[%d]:\ttype:%d,",nr_token,tokens[nr_token].type);
+//			printf("str:%s\n",tokens[nr_token].str);
 			nr_token ++;
 			break;
 		  default: break;
@@ -200,7 +200,7 @@ uint32_t find_dominated_op(int p,int q){
 //	printf("p=%d,i=%d,q=%d\n",p,i,q);
 //	printf("i=%d,dominate=%d,dominate_level=%d\n",i,dominate,dominate_level);
   }
-  printf("dominate:%d",dominate);
+//  printf("dominate:%d",dominate);
   return dominate;
 }
 
@@ -215,43 +215,34 @@ uint32_t eval(int p, int q) {
     * For now this token should be a number.
     * Return the value of the number.
     */
-	printf("single token!\n");
-	printf("p=%d,q=%d\n",p,q);
-	printf("type:%s\n",tokens[p].str);
+//	printf("single token!\n");
 	uint32_t num;
 	if(tokens[p].type == TK_HEX){
-		printf("hex!");
+//		printf("hex!");
 		sscanf(tokens[p].str,"%x",&num);
-		printf("num=%d\n",num);
 		return num;
 	}
     else if(tokens[p].type == TK_DEC){
-		printf("dec!");
+//		printf("dec!");
 		sscanf(tokens[p].str,"%d",&num);
-		printf("num=%x\n",num);
 		return num;
 	}
     else if(tokens[p].type == TK_REG){
-		printf("reg!\n");
+//		printf("reg!\n");
 		for(int i=0;i<4;i++){
 			tokens[p].str[i] = tokens[p].str[i+1];
 		}
-		printf("reg_name=%s\n",tokens[p].str);
 		if(strcmp(tokens[p].str, "eip") == 0){
-			printf("cpu.eip=%d\n",cpu.eip);
 			return cpu.eip;
 		}
 		for(int i = 0;i < 8;i ++ ){
-//			char reg[4]="$";
-//			strcat(reg,regsl[i]);
 			if(strcmp(tokens[p].str,regsl[i]) == 0){
-				printf("reg_l(%d)=%d\n",i,reg_l(i));
 				return reg_l(i);
 			}
 		}
 		return -1;
 	}
-    else {printf("234!");return -1;}
+    else return -1;
   }
   else if (check_parentheses(p, q) == true) {
     /* The expression is surrounded by a matched pair of parentheses.
@@ -262,12 +253,11 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-	printf(",op_str=%s,op_id=%d\n",tokens[op].str,op);
 	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
 	  uint32_t val = eval(p+1, q);
 	  switch (tokens[op].type){
 	    case TK_NEG: return -val;
-	    case TK_POINT: printf("TK_POINT:");return vaddr_read(val, 4);
+	    case TK_POINT: return vaddr_read(val, 4);
 	    case '!': return !val;
 		default: assert(0);
 	  }
@@ -304,7 +294,6 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
   *success = true;
   for(int i = 0;i < nr_token;i ++){
 	if(tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
@@ -315,7 +304,7 @@ uint32_t expr(char *e, bool *success) {
 	}
   }
   uint32_t p = 0,q = nr_token - 1;
-  printf("p=%d,q=%d\n",p,q);
+//  printf("p=%d,q=%d\n",p,q);
   return eval(p,q);
 }
 
