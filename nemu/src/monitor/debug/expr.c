@@ -196,6 +196,7 @@ uint32_t find_dominated_op(int p,int q){
          dominate_level = index_level;
       }
     }
+	printf("i=%d,dominate=%d,dominate_level=%d\n",i,dominate,dominate_level);
   }
   printf("dominate:%d",dominate);
   return dominate;
