@@ -231,10 +231,10 @@ uint32_t eval(int p, int q) {
 	}
     else if(tokens[p].type == TK_REG){
 		printf("reg!\n");
-		printf("reg_name=%s\n",tokens[p].str);
-		for(int i=0;i<3;i++){
+		for(int i=0;i<4;i++){
 			tokens[p].str[i] = tokens[p].str[i+1];
 		}
+		printf("reg_name=%s\n",tokens[p].str);
 		if(strcmp(tokens[p].str, "eip") == 0){
 			printf("cpu.eip=%d\n",cpu.eip);
 			return cpu.eip;
