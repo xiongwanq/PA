@@ -26,7 +26,7 @@ static struct rule {
   {"\\$(eax|edx|ecx|ebx|ebp|esi|edi|esp|eip)", TK_REG},   // register
   {"\\(", '('},			// '('
   {"\\)", ')'},			// ')'
-  {" +", TK_NOTYPE},    // spaces
+  {"\\+", '+'},    // spaces
   {"\\-", '-'},			// subtraction
   {"\\*", '*'},			// multiply
   {"/", '/'},			// division
@@ -106,8 +106,8 @@ static bool make_token(char *e) {
 		  case '|':
 			tokens[nr_token].type = rules[i].token_type;
 			strncpy(tokens[nr_token].str, substr_start, substr_len);
-			printf("token[%d]:\ttype:%d,",nr_token,tokens[nr_token].type);
-			printf("str:%s\n",tokens[nr_token].str);
+//			printf("token[%d]:\ttype:%d,",nr_token,tokens[nr_token].type);
+//			printf("str:%s\n",tokens[nr_token].str);
 			nr_token ++;
 			break;
 		  default: break;
@@ -238,7 +238,7 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-
+	printf("op:%s\n",tokens[op].str);
 	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
 	  uint32_t val = eval(op, op+1);
 	  switch (tokens[op].type){
