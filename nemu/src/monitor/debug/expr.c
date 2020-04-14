@@ -232,14 +232,17 @@ uint32_t eval(int p, int q) {
     else if(tokens[p].type == TK_REG){
 		printf("reg!\n");
 		printf("reg_name=%s\n",tokens[p].str);
-		if(strcmp(tokens[p].str, "$eip") == 0){
+		for(int i=0;i<3;i++){
+			tokens[p].str[i] = tokens[p].str[i+1];
+		}
+		if(strcmp(tokens[p].str, "eip") == 0){
 			printf("cpu.eip=%d\n",cpu.eip);
 			return cpu.eip;
 		}
 		for(int i = 0;i < 8;i ++ ){
-			char reg[4]="$";
-			strcat(reg,regsl[i]);
-			if(strcmp(tokens[p].str,reg) == 0){
+//			char reg[4]="$";
+//			strcat(reg,regsl[i]);
+			if(strcmp(tokens[p].str,regsl[i]) == 0){
 				printf("reg_l(%d)=%d\n",i,reg_l(i));
 				return reg_l(i);
 			}
