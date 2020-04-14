@@ -208,6 +208,8 @@ uint32_t eval(int p, int q) {
     * Return the value of the number.
     */
 	printf("single token!\n");
+	printf("p=%d,q=%d\n",p,q);
+	printf("type:%s\n",tokens[p].str);
 	uint32_t num;
 	if(tokens[p].type == TK_HEX){
 		sscanf(tokens[p].str,"%x",&num);
