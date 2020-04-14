@@ -104,6 +104,7 @@ static bool make_token(char *e) {
 		  case TK_EQ:
 		  case '&':
 		  case '|':
+		  case '!':
 			tokens[nr_token].type = rules[i].token_type;
 			memset(tokens[nr_token].str, 0, sizeof(tokens[nr_token].str));
 			strncpy(tokens[nr_token].str, substr_start, substr_len);
@@ -267,7 +268,7 @@ uint32_t eval(int p, int q) {
 	  switch (tokens[op].type){
 	    case TK_NEG: return -val;
 	    case TK_POINT: printf("TK_POINT:");return vaddr_read(val, 4);
-	    case '!': return ~val;
+	    case '!': return !val;
 		default: assert(0);
 	  }
     }
@@ -288,8 +289,8 @@ uint32_t eval(int p, int q) {
 				return val1 / val2;
 		case TK_EQ: return val1 == val2;
 		case TK_UEQ: return val1 != val2;
-		case '&': return val1 & val2;
-		case '|': return val1 | val2;
+		case '&': return val1 && val2;
+		case '|': return val1 || val2;
 		default: assert(0);
       }
     }
