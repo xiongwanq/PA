@@ -220,22 +220,22 @@ uint32_t eval(int p, int q) {
 	if(tokens[p].type == TK_HEX){
 		printf("hex!");
 		sscanf(tokens[p].str,"%x",&num);
-		printf("num=%d",num);
+		printf("num=%d\n",num);
 		return num;
 	}
     else if(tokens[p].type == TK_DEC){
-		printf("hex!");
+		printf("dec!");
 		sscanf(tokens[p].str,"%d",&num);
-		printf("num=%x",num);
+		printf("num=%x\n",num);
 		return num;
 	}
     else if(tokens[p].type == TK_REG){
-		printf("reg!233!");
+		printf("reg!233!\n");
 		char *reg = "$";
 		strcat(reg,tokens[p].str);
 		for(int i = 0;i < 8;i ++ ){
 			if(strcmp(reg,regsl[i]) == 0){
-				printf("reg_l(%d)=%d",i,reg_l(i));
+				printf("reg_l(%d)=%d\n",i,reg_l(i));
 				return reg_l(i);
 			}
 		}
