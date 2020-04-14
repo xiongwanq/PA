@@ -237,7 +237,7 @@ uint32_t eval(int p, int q) {
 			return cpu.eip;
 		}
 		for(int i = 0;i < 8;i ++ ){
-			char reg[20]="$";
+			char reg[4]="$";
 			strcat(reg,regsl[i]);
 			if(strcmp(tokens[p].str,reg) == 0){
 				printf("reg_l(%d)=%d\n",i,reg_l(i));
