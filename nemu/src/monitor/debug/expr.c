@@ -175,19 +175,19 @@ uint32_t level(int token_type){
 }
 
 uint32_t find_dominated_op(int p,int q){
-  bool between_parentheses = false;
+  int num_left = 0;
   uint32_t dominate = p;
   uint32_t dominate_level = level(tokens[p].type);
   uint32_t index_level;
 
   for(int i=p;i<=q;i++){
     if(tokens[i].type == '('){
-      between_parentheses = true;
+      num_left ++;
     }
     if(tokens[i].type == ')'){
-      between_parentheses = false;
+      num_left --;
     }
-    if(!between_parentheses){
+    if(num_left == 0){
       index_level = level(tokens[i].type);
 	  printf("str=%s,index_level=%d,dominate_level=%d\n",tokens[i].str,index_level,dominate_level);
       if(index_level >= dominate_level){
