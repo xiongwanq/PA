@@ -24,9 +24,8 @@ WP* new_wp(){
   WP *ptr = free_;
   if(ptr){
     free_ = free_->next;
-    ptr->next = head;
-    head = ptr;
-//    free(ptr);
+    ptr->next = head->next;
+    head->next = ptr;
     return head;
   }else{
 	assert(0);
@@ -38,7 +37,6 @@ void free_wp(WP *wp){
 	head = head->next;
 	wp->next = free_;
 	free_ = wp;
-//	free(wp)；
   }else{
     WP *pre_wp = head;
     while(pre_wp->next != wp){
@@ -47,7 +45,6 @@ void free_wp(WP *wp){
     pre_wp->next = wp->next;
     wp->next = free_;
     free_ = wp;
-//    free(wp);
   }
 }
 
@@ -89,5 +86,6 @@ void list_watchpoint(){
 }
 
 WP* scan_watchpoint(){
+  
   return NULL;  
 }
