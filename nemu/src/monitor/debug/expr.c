@@ -112,7 +112,7 @@ static bool make_token(char *e) {
 			break;
 		  default: break;
         }
-
+		break;
       }
     }
     if (i == NR_REGEX) {
