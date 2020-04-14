@@ -131,7 +131,7 @@ bool check_parentheses(int p,int q){
 
   int num_left = 0;
 
-  for(int i = p;i <= q ;i++){
+  for(int i = p + 1;i < q ;i++){
 	  if(tokens[i].type == '('){
 	    num_left ++;
       }else if(tokens[i].type == ')'){
@@ -232,6 +232,10 @@ uint32_t eval(int p, int q) {
     else if(tokens[p].type == TK_REG){
 		printf("reg!\n");
 		printf("reg_name=%s\n",tokens[p].str);
+		if(strcmp(tokens[p].str, "$eip") == 0){
+			printf("cpu.eip=%d\n",cpu.eip);
+			return cpu.eip;
+		}
 		for(int i = 0;i < 8;i ++ ){
 			char reg[20]="$";
 			strcat(reg,regsl[i]);
@@ -239,10 +243,6 @@ uint32_t eval(int p, int q) {
 				printf("reg_l(%d)=%d\n",i,reg_l(i));
 				return reg_l(i);
 			}
-		}
-		if(strcmp(tokens[p].str, "$eip") == 0){
-			printf("cpu.eip=%d\n",cpu.eip);
-			return cpu.eip;
 		}
 		return -1;
 	}
@@ -262,7 +262,7 @@ uint32_t eval(int p, int q) {
 	  uint32_t val = eval(p+1, q);
 	  switch (tokens[op].type){
 	    case TK_NEG: return -val;
-	    case TK_POINT: printf("TK_POINT:");return val;
+	    case TK_POINT: printf("TK_POINT:");return vaddr_read(val, 4);
 	    case '!': return !val;
 		default: assert(0);
 	  }
@@ -275,7 +275,13 @@ uint32_t eval(int p, int q) {
 		case '+': return val1 + val2;
 		case '-': return val1 - val2;
 		case '*': return val1 * val2;
-		case '/': return val1 / val2;
+		case '/': 
+			if(val2 == 0){
+				printf("cannot devide 0!");
+				assert(0);
+			}
+			else
+				return val1 / val2;
 		case TK_EQ: return val1 == val2;
 		case TK_UEQ: return val1 != val2;
 		case '&': return val1 & val2;
@@ -296,12 +302,10 @@ uint32_t expr(char *e, bool *success) {
   //TODO();
   *success = true;
   for(int i = 0;i < nr_token;i ++){
-	if(tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC)) ) {
+	if(tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
         tokens[i].type = TK_POINT;
 	}
-  }
-  for(int i = 0;i < nr_token;i ++){
-	if(tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC)) ){
+	if(tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
 		tokens[i].type = TK_NEG;
 	}
   }
