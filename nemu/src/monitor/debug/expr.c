@@ -197,8 +197,8 @@ uint32_t find_dominated_op(int p,int q){
          dominate_level = index_level;
       }
     }
-	printf("p=%d,i=%d,q=%d\n",p,i,q);
-	printf("i=%d,dominate=%d,dominate_level=%d\n",i,dominate,dominate_level);
+//	printf("p=%d,i=%d,q=%d\n",p,i,q);
+//	printf("i=%d,dominate=%d,dominate_level=%d\n",i,dominate,dominate_level);
   }
   printf("dominate:%d",dominate);
   return dominate;
@@ -255,7 +255,7 @@ uint32_t eval(int p, int q) {
   else {
     /* We should do more things here. */
 	uint32_t op = find_dominated_op(p, q);
-	printf("op=%s\n",tokens[op].str);
+	printf("op_str=%s,op_id=%d\n",tokens[op].str,op);
 	if(tokens[op].type == TK_NEG|| tokens[op].type == TK_POINT|| tokens[op].type == '!'){
 	  uint32_t val = eval(op, op+1);
 	  switch (tokens[op].type){
