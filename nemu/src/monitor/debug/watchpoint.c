@@ -50,13 +50,13 @@ void free_wp(WP *wp){
 	free_ = wp;
   }
   else{
-    WP *pre_wp = head;
-    while(pre_wp->next != wp){
-    	pre_wp = pre_wp->next;
-    }
-    pre_wp->next = wp->next;
-    wp->next = free_;
-    free_ = wp;
+	WP *pre_wp = head;
+	while(pre_wp->next != wp){
+		pre_wp = pre_wp->next;
+	}
+	pre_wp->next = wp->next;
+	wp->next = free_;
+	free_ = wp;
   }
 }
 
@@ -66,7 +66,7 @@ int set_watchpoint(char *e){
   bool success;
   wp->old_val = expr(e,&success);
   if(success){
-    printf("wp->NO=%d,wp->expr=%s,old_val=%#x\n",
+	printf(" Set watchpoint #%d\nexpr      = %s,old value = %#x\n",
 		    wp->NO,wp->expr,wp->old_val);
     return wp->NO;
   }else{
