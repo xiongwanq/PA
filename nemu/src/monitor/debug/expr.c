@@ -264,7 +264,7 @@ uint32_t eval(int p, int q) {
 	else{
 	  uint32_t val1 = eval(p, op - 1);
 	  uint32_t val2 = eval(op + 1, q);
-	  printf("val1=%d,val2=%d\n",val1,val2);
+//	  printf("val1=%d,val2=%d\n",val1,val2);
 	  switch (tokens[op].type){
 		case '+': return val1 + val2;
 		case '-': return val1 - val2;
@@ -289,13 +289,21 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
+
   *success = true;
   for(int i = 0;i < nr_token;i ++){
-	if(tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
-        tokens[i].type = TK_POINT;
+	// Distinguish point sign
+	if(tokens[i].type == '*' && (i == 0 ||	
+		(tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC &&
+		tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
+      tokens[i].type = TK_POINT;
 	}
-	if(tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
-		tokens[i].type = TK_NEG;
+
+	// Distinguish negative sign
+	if(tokens[i].type == '-' && (i == 0 || 
+		(tokens[i - 1].type != TK_HEX && tokens[i - 1].type != TK_DEC && 
+		tokens[i - 1].type != TK_REG && tokens[i - 1].type !=')')) ) {
+	  tokens[i].type = TK_NEG;
 	}
   }
   uint32_t p = 0,q = nr_token - 1;

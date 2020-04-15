@@ -12,7 +12,6 @@ typedef struct watchpoint {
   int old_val;
   /* TODO: Add more members if necessary */
 
-
 } WP;
 
 void list_watchpoint();

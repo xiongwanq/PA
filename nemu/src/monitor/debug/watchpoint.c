@@ -26,18 +26,19 @@ WP* new_wp(){
   if(free_p){
     free_ = free_->next;
 	if(head_p){
-		while(head_p->next){
-		  head_p = head_p->next;
-	    }
-		head_p->next = free_p;
-		free_p->next = NULL;
+	  while(head_p->next){
+	    head_p = head_p->next;
+	  }
+	  head_p->next = free_p;
+	  free_p->next = NULL;
 	}
 	else{
-		free_p->next = head;
-		head = free_p;
+	  free_p->next = head;
+	  head = free_p;
 	}
 	return free_p;
-  }else{
+  }
+  else{
 	assert(0);
   }
 }
@@ -47,7 +48,8 @@ void free_wp(WP *wp){
 	head = head->next;
 	wp->next = free_;
 	free_ = wp;
-  }else{
+  }
+  else{
     WP *pre_wp = head;
     while(pre_wp->next != wp){
     	pre_wp = pre_wp->next;
@@ -64,7 +66,8 @@ int set_watchpoint(char *e){
   bool success;
   wp->old_val = expr(e,&success);
   if(success){
-    printf("wp->NO=%d,wp->expr=%s,old_val=%#x\n",wp->NO,wp->expr,wp->old_val);
+    printf("wp->NO=%d,wp->expr=%s,old_val=%#x\n",
+		    wp->NO,wp->expr,wp->old_val);
     return wp->NO;
   }else{
 	printf("no value\n");
@@ -102,8 +105,10 @@ WP* scan_watchpoint(){
     wp->new_val = expr(wp->expr, &success);
     if(success){
 		if(wp->old_val != wp->new_val){
-			printf("%-4s%-20s%-20s%20s\n","NO","EXPR","Old Value","New Value");
-			printf("%-4d%-20s0x%-18x0x%-20x\n",wp->NO,wp->expr,wp->old_val,wp->new_val);
+			printf("%-4s%-20s%-20s%20s\n",
+				   "NO","EXPR","Old Value","New Value");
+			printf("%-4d%-20s0x%-18x0x%-20x\n",
+				    wp->NO,wp->expr,wp->old_val,wp->new_val);
 			wp->old_val = wp->new_val;
 			return wp;
 		}
