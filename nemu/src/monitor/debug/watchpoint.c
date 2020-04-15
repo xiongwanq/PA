@@ -66,7 +66,7 @@ int set_watchpoint(char *e){
   bool success;
   wp->old_val = expr(e,&success);
   if(success){
-	printf(" Set watchpoint #%d\nexpr      = %s,old value = %#x\n",
+	printf("Set watchpoint #%d\nexpr      = %s\nold value = %#x\n",
 		    wp->NO,wp->expr,wp->old_val);
     return wp->NO;
   }else{
