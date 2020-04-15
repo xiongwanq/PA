@@ -71,7 +71,6 @@ static bool make_token(char *e) {
   int position = 0;
   int i;
   regmatch_t pmatch;
-
   nr_token = 0;
 
   while (e[position] != '\0') {
@@ -131,48 +130,51 @@ bool check_parentheses(int p,int q){
 	return false;
   }
 
-  int num_left = 0;
+  int num_left = 0;			// number of left parenthesis
 
   for(int i = p + 1;i < q ;i++){
 	  if(tokens[i].type == '('){
 	    num_left ++;
-      }else if(tokens[i].type == ')'){
-		if(num_left != 0){
+      }
+	  else if(tokens[i].type == ')'){
+		if(num_left != 0){	// If the right parenthesis have matching left parenthesis
 			num_left --;
-	    }else{
-			return false;
+	    }
+		else{
+			return false;   // If the right parenthesis don't have matching left parenthesis
 	    }
 	  }
   }
 
   if(num_left == 0){
 	return true;
-  }else{
+  }
+  else{
 	return false;
   } 
 }
 
 uint32_t level(int token_type){
   if(token_type == TK_NEG||token_type == TK_POINT||token_type == '!'){
-    return 1;
-  }
-  else if(token_type == '*'||token_type == '/'){
-    return 2;
-  }
-  else if(token_type == '+'||token_type == '-'){
-    return 3;
-  }
-  else if(token_type == TK_EQ||token_type == TK_UEQ){
-    return 4;
-  }
-  else if(token_type == '&'){
-    return 5;
-  }
-  else if(token_type == '|'){
     return 6;
   }
+  else if(token_type == '*'||token_type == '/'){
+    return 5;
+  }
+  else if(token_type == '+'||token_type == '-'){
+    return 4;
+  }
+  else if(token_type == TK_EQ||token_type == TK_UEQ){
+    return 3;
+  }
+  else if(token_type == '&'){
+    return 2;
+  }
+  else if(token_type == '|'){
+    return 1;
+  }
   else{  
-    return 0;   //number's level
+    return 100;   //number's level
   }
 }
 
@@ -189,16 +191,13 @@ uint32_t find_dominated_op(int p,int q){
     if(tokens[i].type == ')'){
       num_left --;
     }
-    if(num_left == 0){
+    if(num_left == 0){		// The token is not in parentheses
       index_level = level(tokens[i].type);
-	  printf("str=%s,index_level=%d,dominate_level=%d\n",tokens[i].str,index_level,dominate_level);
-      if(index_level >= dominate_level){
+      if(index_level <= dominate_level){
          dominate = i;
          dominate_level = index_level;
       }
     }
-//	printf("p=%d,i=%d,q=%d\n",p,i,q);
-//	printf("i=%d,dominate=%d,dominate_level=%d\n",i,dominate,dominate_level);
   }
 //  printf("dominate:%d",dominate);
   return dominate;

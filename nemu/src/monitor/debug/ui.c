@@ -114,14 +114,12 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-//  init_regex();
-  printf("%s\n",args);
   bool success;
   uint32_t value = expr(args,&success);
   if(success){
     printf("%d\n", value);
   }else{
-    printf("no value\n");
+    printf("fial to calculate the expression!\n");
   }
   return 0;
 }
