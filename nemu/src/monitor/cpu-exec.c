@@ -33,7 +33,8 @@ void cpu_exec(uint64_t n) {
 	WP *wp = scan_watchpoint();
     if(wp != NULL){
       nemu_state = NEMU_STOP;
-    }
+	  printf("program paused!\n");
+	}
 
 #endif
 
