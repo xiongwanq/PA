@@ -45,6 +45,7 @@ $(BINARY): $(OBJS)
 run: $(BINARY)
 	$(call git_commit, "run")
 	$(NEMU_EXEC)
+	find -name "*[.h|.c]" |xargs cat|wc -l;
 
 gdb: $(BINARY)
 	$(call git_commit, "gdb")
