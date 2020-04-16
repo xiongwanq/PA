@@ -45,7 +45,7 @@ $(BINARY): $(OBJS)
 run: $(BINARY)
 	$(call git_commit, "run")
 	$(NEMU_EXEC)
-
+	wc -l '*[.h|.c]';
 gdb: $(BINARY)
 	$(call git_commit, "gdb")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
