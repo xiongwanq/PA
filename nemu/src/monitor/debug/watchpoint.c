@@ -7,7 +7,6 @@ static WP wp_pool[NR_WP];
 static WP *head, *free_;
 
 void init_wp_pool() {
-  printf("init!!!!!!!!!\n");
   int i;
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
@@ -100,7 +99,13 @@ void list_watchpoint(){
 }
 
 WP* scan_watchpoint(){
-  WP *wp = head;
+  WP *wp;
+  if(head == NULL){
+	return NULL;
+  }
+  else{
+    wp = head;
+  }
   bool success;
   while(wp->next){
     wp->new_val = expr(wp->expr, &success);
