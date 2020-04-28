@@ -34,12 +34,12 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args){
   //printf("args=%s\n",args);	
-  char *arg = strtok(NULL, " ");
+  //char *arg = strtok(NULL, " ");
   int num;	//si[N]值
-  if(arg==NULL){	
+  if(args==NULL){	
 	num=1;
 	}else{
-	num = atoi(arg);
+	num = atoi(args);
 	}
   cpu_exec(num);
   return 0;
