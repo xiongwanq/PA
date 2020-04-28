@@ -35,6 +35,8 @@ void cpu_exec(uint64_t n) {
       nemu_state = NEMU_STOP;
 	  printf("program paused!\n");
 	}
+	else{
+	}
 
 #endif
 
