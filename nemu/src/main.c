@@ -1,10 +1,13 @@
+#include <stdio.h>
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
 
+
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
+  printf("init !!!!!!!\n");
   int is_batch_mode = init_monitor(argc, argv);
-
+  printf("okkkkkk!!!!!!!\n");
   /* Receive commands from user. */
   ui_mainloop(is_batch_mode);
 

@@ -100,7 +100,7 @@ void list_watchpoint(){
 
 WP* scan_watchpoint(){
   WP *wp = head;
-  bool success = false;
+  bool success;
   while(wp->next){
     wp->new_val = expr(wp->expr, &success);
     if(success){
