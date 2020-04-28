@@ -29,7 +29,7 @@ $(OBJ_DIR)/%.o: src/%.c
 
 # Some convinient rules
 
-.PHONY: app run submit clean
+.PHONY: app run submit clean count
 app: $(BINARY)
 
 ARGS ?= -l $(BUILD_DIR)/nemu-log.txt
@@ -45,7 +45,6 @@ $(BINARY): $(OBJS)
 run: $(BINARY)
 	$(call git_commit, "run")
 	$(NEMU_EXEC)
-	find -name "*[.h|.c]" |xargs cat|wc -l;
 
 gdb: $(BINARY)
 	$(call git_commit, "gdb")
@@ -53,3 +52,6 @@ gdb: $(BINARY)
 
 clean: 
 	rm -rf $(BUILD_DIR)
+
+count:
+	find . -name "*[.c|.h]" | xargs wc -l
