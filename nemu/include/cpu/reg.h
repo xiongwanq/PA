@@ -31,7 +31,23 @@ typedef struct {
 			rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		};
 	};
-  vaddr_t eip;
+
+    vaddr_t eip;
+
+    union {
+		struct{	// 位域是冒号！
+		    uint32_t CF : 1;	// 无符号整型溢出 - 最高位进位或借位则置1
+            uint32_t x1 : 5;
+            uint32_t ZF : 1;	// 是否为零 - 结果为0则置1
+            uint32_t SF : 1;	// 符号整型的最高位
+            uint32_t x2 : 1;
+            uint32_t IF : 1;	// 允许单步调试 - 1  禁用该模式 - 0
+            uint32_t x3 : 1;
+            uint32_t OF : 1;	// 带符号整型溢出 - 结果是较大正数或较小负数且无法匹配目的操作数时置1
+            uint32_t x4 : 20;
+		};
+		uint32_t value;			// 初值
+	} eflags;
 
 } CPU_state;
 
