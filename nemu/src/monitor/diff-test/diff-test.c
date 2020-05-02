@@ -33,6 +33,25 @@ void diff_test_skip_nemu() { is_skip_nemu = true; }
     regs.eip = cpu.eip; \
   } while (0)
 
+#define diff_state(regName) \
+  static bool concat(test_,regName) (union gdb_regs r){ \
+    if(r.regName != cpu.regName) {  \
+      printf("r.regName: %-10xcpu.regName: %-10x\n",r.regName,cpu.regName);  \
+      return true; \
+    } \
+    else   return false; \
+  } 
+  
+
+diff_state(eax);
+diff_state(ebx);
+diff_state(ecx);
+diff_state(edx);
+diff_state(esp);
+diff_state(ebp);
+diff_state(esi);
+diff_state(edi);
+
 static uint8_t mbr[] = {
   // start16:
   0xfa,                           // cli
@@ -149,8 +168,10 @@ void difftest_step(uint32_t eip) {
 
   // TODO: Check the registers state with QEMU.
   // Set `diff` as `true` if they are not the same.
-  TODO();
 
+  diff=test_eax(r) || test_ebx(r) || test_ecx(r) || test_edx(r)||
+       test_ebp(r) || test_edi(r) || test_esi(r) || test_esp(r);
+ 
   if (diff) {
     nemu_state = NEMU_END;
   }
