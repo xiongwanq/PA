@@ -155,26 +155,10 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 	default:
 	  break;
   }
+
   rtl_shli(&t, &t, movLen);
   rtl_shri(&t, &t, movLen);
   *dest = t;
-
-//  switch(width){
-//    case 1:
-//      t <<= 24;
-//      t >>= 24;
-//      break;
-//    case 2:
-//      t <<= 16;
-//      t >>= 16;
-//      break;
-//    case 3:
-//      t <<= 8;
-//      t >>= 8;
-//      break;
-//    default:
-//      break;
-//  }
 }
 
 // 将源操作数入栈
@@ -229,10 +213,10 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   rtlreg_t is_zero = 0;
   if(*result == 0x0){
-    is_zero = 1;
+    rtl_li(&is_zero, 1);
   }
   else{
-	is_zero = 0;
+    rtl_li(&is_zero, 0);
   }
   rtl_set_ZF(&is_zero);
 }
