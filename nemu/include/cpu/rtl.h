@@ -124,38 +124,60 @@ make_rtl_setget_eflags(OF)
 make_rtl_setget_eflags(ZF)
 make_rtl_setget_eflags(SF)
 
+// 将源操作数赋值给目的操作数
 static inline void rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   // dest <- src1
   *dest = *src1;
 }
 
+// 将操作数按位取反
 static inline void rtl_not(rtlreg_t* dest) {
   // dest <- ~dest
   *dest = ~*dest;
 }
 
+//将源操作数符号扩展后赋给目的操作数
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
+  int movLen = 0;
   rtlreg_t t = *src1;
   t = (int)t;
   switch(width){
-    case 1:
-      t <<= 24;
-      t >>= 24;
-      break;
-    case 2:
-      t <<= 16;
-      t >>= 16;
-      break;
-    case 3:
-      t <<= 8;
-      t >>= 8;
-      break;
-    default:
-      break;
+	case 1:
+	  movLen = 24;
+	  break;
+	case 2:
+	  movLen = 16;
+	  break;
+	case 3:
+	  movLen = 8;
+	  break;
+	default:
+	  break;
   }
+  rtl_shli(&t, &t, movLen);
+  rtl_shri(&t, &t, movLen);
+  *dest = t;
+
+//  switch(width){
+//    case 1:
+//      t <<= 24;
+//      t >>= 24;
+//      break;
+//    case 2:
+//      t <<= 16;
+//      t >>= 16;
+//      break;
+//    case 3:
+//      t <<= 8;
+//      t >>= 8;
+//      break;
+//    default:
+//      break;
+//  }
 }
 
+// 将源操作数入栈
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
@@ -166,6 +188,7 @@ static inline void rtl_push(const rtlreg_t* src1) {
   rtl_sm(&t, 4, src1);
 }
 
+// 出栈，值赋给目的操作数
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
@@ -176,27 +199,32 @@ static inline void rtl_pop(rtlreg_t* dest) {
   rtl_sr_l(R_ESP, &t);
 }
 
+// 判断源操作数是否等于零
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)
   *dest = (*src1 == 0 ? 1 : 0);
 }
 
+// 判断源操作数是否等于立即数
 static inline void rtl_eqi(rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   // dest <- (src1 == imm ? 1 : 0)
   *dest = (*src1 == imm ? 1 : 0);
 }
 
+// 判断源操作数是否不等于零
 static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 != 0 ? 1 : 0)
   *dest = (*src1 != 0 ? 1 : 0);
 }
 
+// 得到源操作数的符号位
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
   rtl_shri(dest, src1, width * 8 - 1);
   *dest &= 0x1; 
 }
 
+// 更新ZF标识
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   rtlreg_t is_zero = 0;
@@ -209,6 +237,7 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   rtl_set_ZF(&is_zero);
 }
 
+// 更新SF标识
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   rtlreg_t is_sign = 0;
@@ -216,6 +245,7 @@ static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   rtl_set_SF(&is_sign);
 }
 
+// 同时更新ZF和SF标识
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
   rtl_update_ZF(result, width);
   rtl_update_SF(result, width);
