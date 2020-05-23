@@ -18,3 +18,4 @@ make_EHelper(out);
 make_EHelper(jmp);
 
 make_EHelper(lea);
+make_EHelper(add);
