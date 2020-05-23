@@ -141,7 +141,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   int movLen = 0;
   rtlreg_t t = *src1;
-  t = (int)t;
+  t = (int32_t)t;
   switch(width){
 	case 1:
 	  movLen = 24;
