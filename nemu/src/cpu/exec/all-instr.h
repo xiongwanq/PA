@@ -16,3 +16,5 @@ make_EHelper(sub);
 make_EHelper(nop);
 make_EHelper(out);
 make_EHelper(jmp);
+
+make_EHelper(lea);
