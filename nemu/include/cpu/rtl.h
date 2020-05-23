@@ -158,6 +158,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
   rtl_shli(&t, &t, movLen);
   rtl_shri(&t, &t, movLen);
+  printf("src1=%d, dest=%d\n",*src1, *dest);
   *dest = t;
 }
 
