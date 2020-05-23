@@ -56,7 +56,7 @@ static inline make_DopHelper(SI) {
     rtl_sext(&t1, &t0, 1);
     op->simm = simm;
   }
-
+  printf("simm=0x%x,op->simm=0x%x\n",simm,op->simm);
   rtl_li(&op->val, op->simm);
 
 #ifdef DEBUG

@@ -141,6 +141,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   int movLen = 0;
   int32_t t =(int32_t) *src1;
+
   switch(width){
 	case 1:
 	  movLen = 24;
@@ -155,13 +156,11 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 	  break;
   }
 
-  printf("width=%d, movLen=%d\n",width, movLen);
-
   t = t << movLen;
   t = t >> movLen;  
 
   *dest = t;
-  printf("src1=0x%x, dest=0x%x\n",*src1, *dest);
+//  printf("src1=0x%x, dest=0x%x\n",*src1, *dest);
 }
 
 // 将源操作数入栈
