@@ -140,8 +140,7 @@ static inline void rtl_not(rtlreg_t* dest) {
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   int movLen = 0;
-  rtlreg_t t = *src1;
-  t = (int32_t)t;
+  int32_t t =(int32_t) *src1;
   switch(width){
 	case 1:
 	  movLen = 24;
@@ -157,10 +156,12 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   }
 
   printf("width=%d, movLen=%d\n",width, movLen);
-  rtl_shli(&t, &t, movLen);
-  rtl_shri(&t, &t, movLen);
-  printf("src1=0x%x, dest=0x%x\n",*src1, *dest);
+
+  t = t << movLen;
+  t = t >> movLen;  
+
   *dest = t;
+  printf("src1=0x%x, dest=0x%x\n",*src1, *dest);
 }
 
 // 将源操作数入栈
