@@ -1,11 +1,18 @@
 #include "cpu/exec.h"
 
 make_EHelper(add) {
+  printf("----add----\n");
+  printf("id_dest=0x%x,id_src=0x%x\n",id_dest->val, id_src->val);
   rtl_add(&t2, &id_dest->val, &id_src->val);
+  printf("add_result=0x%x\n",t2);
   rtl_sltu(&t3, &t2, &id_dest->val);
   operand_write(id_dest, &t2);
 
+  printf("---now ZFSF-----\n");
+  printf("ZF=0x%x,SF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF);
   rtl_update_ZFSF(&t2, id_dest->width);
+  printf("---update ZFSF-----\n");
+  printf("ZF=0x%x,SF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF);  
 
   rtl_sltu(&t0, &t2, &id_dest->val);
   rtl_or(&t0, &t3, &t0);
