@@ -207,28 +207,33 @@ static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
   rtl_shri(dest, src1, width * 8 - 1);
-  rtl_andi(dest, dest, 0x1);
 }
 
 // 更新ZF标识
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   rtlreg_t is_zero;
-  if(*result == 0x0){
-    rtl_li(&is_zero, 1);
+  rtlreg_t t = *result;
+  switch(width){
+	case 1:
+	  t = *result & 0x000000ff;
+	  break;
+	case 2:
+	  t = *result & 0x0000ffff;
+	  break;
+	default:
+	  break;
   }
-  else{
-    rtl_li(&is_zero, 0);
-  }
+  rtl_eq0(&is_zero, &t);
   rtl_set_ZF(&is_zero);
 }
 
 // 更新SF标识
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  rtlreg_t is_sign;
-  rtl_msb(&is_sign, result, width);
-  rtl_set_SF(&is_sign);
+  rtlreg_t sign;
+  rtl_shri(&sign, result, width*8-1);
+  rtl_set_SF(&sign);
 }
 
 // 同时更新ZF和SF标识
