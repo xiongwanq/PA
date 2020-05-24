@@ -23,11 +23,12 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
     case CC_E:		// ZF = 1
       rtl_get_ZF(&t0);
       break;
-    case CC_BE:		// CF = 1 OR ZF = 1
-	  rtl_get_CF(&t0);
+    case CC_BE:{	// CF = 1 OR ZF = 1
+      rtl_get_CF(&t0);
       rtl_get_ZF(&t1);
       rtl_or(dest,&t0,&t1);
       break;
+    }	
     case CC_S:		// SF = 1
       rtl_get_SF(&t0);
       break;
