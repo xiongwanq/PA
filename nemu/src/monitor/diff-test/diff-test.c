@@ -179,6 +179,20 @@ void difftest_step(uint32_t eip) {
 
   diff=test_eax(r) || test_ebx(r) || test_ecx(r) || test_edx(r) ||
        test_ebp(r) || test_edi(r) || test_esi(r) || test_esp(r) ;
+  if(r.eflags != cpu.eflags.value){
+	diff = true;
+	printf("r.eflags=0x%x,cpu.eflags.value=0x%x\n",r.eflags,cpu.eflags.value);
+  }
+//  if(r.eflags.CF != cpu.eflags.CF || r.eflags.ZF != cpu.eflags.ZF || r.eflags.SF != cpu.eflags.SF ||
+//     r.eflags.IF != cpu.eflags.IF || r.eflags.OF != cpu.eflags.OF){
+//	printf("r.eflags.CF=0x%x,cpu.eflags.CF=0x%x\n",r.eflags.CF,cpu.eflags.CF);
+//	printf("r.eflags.ZF=0x%x,cpu.eflags.ZF=0x%x\n",r.eflags.ZF,cpu.eflags.ZF);
+//	printf("r.eflags.SF=0x%x,cpu.eflags.SF=0x%x\n",r.eflags.SF,cpu.eflags.SF);
+//	printf("r.eflags.IF=0x%x,cpu.eflags.IF=0x%x\n",r.eflags.IF,cpu.eflags.IF);
+//	printf("r.eflags.OF=0x%x,cpu.eflags.OF=0x%x\n",r.eflags.OF,cpu.eflags.OF);
+//  diff = true;
+//  }
+
  
   if (diff) {
     nemu_state = NEMU_END;
