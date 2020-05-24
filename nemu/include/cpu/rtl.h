@@ -234,7 +234,7 @@ static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   rtlreg_t sign;
   rtl_shri(&sign, result, width*8-1);
-  printf("result=0x%x,sign=0x%x\n",*result,sign);
+//  printf("result=0x%x,sign=0x%x\n",*result,sign);
   rtl_set_SF(&sign);
 }
 
