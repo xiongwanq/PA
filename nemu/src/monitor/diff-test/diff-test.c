@@ -179,10 +179,10 @@ void difftest_step(uint32_t eip) {
 
   diff=test_eax(r) || test_ebx(r) || test_ecx(r) || test_edx(r) ||
        test_ebp(r) || test_edi(r) || test_esi(r) || test_esp(r) ;
-  if(r.eflags != cpu.eflags.value){
-	diff = true;
-	printf("r.eflags=0x%x,cpu.eflags.value=0x%x\n",r.eflags,cpu.eflags.value);
-  }
+//  if(r.eflags != cpu.eflags.value){
+//	diff = true;
+//	printf("r.eflags=0x%x,cpu.eflags.value=0x%x\n",r.eflags,cpu.eflags.value);
+//  }
 //  if(r.eflags.CF != cpu.eflags.CF || r.eflags.ZF != cpu.eflags.ZF || r.eflags.SF != cpu.eflags.SF ||
 //     r.eflags.IF != cpu.eflags.IF || r.eflags.OF != cpu.eflags.OF){
 //	printf("r.eflags.CF=0x%x,cpu.eflags.CF=0x%x\n",r.eflags.CF,cpu.eflags.CF);
