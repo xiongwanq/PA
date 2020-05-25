@@ -46,6 +46,9 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
+  printf("----before sub-----\n");
+  printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
+  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   rtl_sub(&t2, &id_dest->val, &id_src->val);
   rtl_sltu(&t3, &id_dest->val, &t2);
 
@@ -61,6 +64,9 @@ make_EHelper(cmp) {
   rtl_msb(&t0, &t0, id_dest->width);
   rtl_set_OF(&t0);print_asm_template2(sub);
 
+  printf("----after sub-----\n");
+  printf("t2=0x%x\n",t2);
+  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   print_asm_template2(cmp);
 }
 
