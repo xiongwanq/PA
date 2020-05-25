@@ -1,7 +1,13 @@
 #include "cpu/exec.h"
 
 make_EHelper(test) {
-  TODO();
+  rtlreg_t t;
+  rtl_and(&t, &id_dest->val, &id_src->val);
+  
+  rtl_update_ZFSF(&t, id_dest->width);
+  t = 0;
+  rtl_set_OF(&t);
+  rtl_set_CF(&t);
 
   print_asm_template2(test);
 }
