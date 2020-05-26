@@ -86,7 +86,7 @@ make_EHelper(inc) {
   rtl_set_OF(&t0);
 
 //  printf("----after-----\n");
-  printf("t2=0x%x,eax=0x%x\n",t2,reg_l(R_EAX));
+//  printf("t2=0x%x,eax=0x%x\n",t2,reg_l(R_EAX));
 //  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   print_asm_template1(inc);
 }
