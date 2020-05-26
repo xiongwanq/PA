@@ -92,7 +92,8 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  printf("----before-----\n");
+  printf("ebx=0x%x\n",reg_l(R_EBX));
+  printf("\n----before-----\n");
   printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
   printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   rtl_subi(&t2, &id_dest->val, 1);
@@ -108,7 +109,7 @@ make_EHelper(dec) {
 
   printf("----after-----\n");
   printf("t2=0x%x\n",t2);
-  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
+  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   print_asm_template1(dec);
 }
 
