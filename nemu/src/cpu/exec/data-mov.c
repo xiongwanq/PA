@@ -55,14 +55,18 @@ make_EHelper(cltd) {
   }
   else {
 	rtl_lr_l(&t, R_EAX);
-  printf("R_EAX=0x%x\n",t);
+    printf("R_EAX=0x%x\n",t);
     if(t < 0){
 	  t_val = 0xffffffff;
 	  rtl_sr_l(R_EDX, &t_val);
 	}
 	else{
+	  printf("----before-----\n");
+	  printf("R_EDX=0x%x\n",reg_l(R_EDX));
 	  t_val = 0;
 	  rtl_sr_w(R_EDX, &t_val);
+	  printf("----after-----\n");
+	  printf("t_val=0x%x,R_EDX=0x%x\n",t_val,reg_l(R_EDX));
 	}
   }
 
