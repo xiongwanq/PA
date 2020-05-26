@@ -71,23 +71,23 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  printf("----before-----\n");
-  printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
-  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
+//  printf("----before-----\n");
+//  printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
+//  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   rtl_addi(&t2, &id_dest->val, 1);
   operand_write(id_dest, &t2);
   
   rtl_update_ZFSF(&t2, id_dest->width);
  
-//  rtl_xor(&t0, &id_dest->val, &id_src->val);
+  rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_xor(&t1, &id_dest->val, &t2);
-//  rtl_and(&t0, &t0, &t1);
-  rtl_msb(&t1, &t1, id_dest->width);
+  rtl_and(&t0, &t0, &t1);
+  rtl_msb(&t0, &t0, id_dest->width);
   rtl_set_OF(&t1);
 
-  printf("----after-----\n");
-  printf("t2=0x%x\n",t2);
-  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
+//  printf("----after-----\n");
+//  printf("t2=0x%x\n",t2);
+//  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   print_asm_template1(inc);
 }
 
