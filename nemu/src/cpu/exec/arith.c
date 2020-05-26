@@ -72,7 +72,7 @@ make_EHelper(cmp) {
 
 make_EHelper(inc) {
 //  printf("----before-----\n");
-//  printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
+  printf("id_dest->val=0x%x,id_src->val=0x%x\n",id_dest->val,id_src->val);
 //  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   rtl_addi(&t2, &id_dest->val, 1);
   operand_write(id_dest, &t2);
@@ -86,7 +86,7 @@ make_EHelper(inc) {
   rtl_set_OF(&t1);
 
 //  printf("----after-----\n");
-//  printf("t2=0x%x\n",t2);
+  printf("t2=0x%x,eax=0x%x\n",t2,reg_l(R_EAX));
 //  printf("ZF=0x%x,SF=0x%x,CF=0x%x,OF=0x%x\n",cpu.eflags.ZF,cpu.eflags.SF,cpu.eflags.CF,cpu.eflags.OF);
   print_asm_template1(inc);
 }
