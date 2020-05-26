@@ -43,6 +43,7 @@ make_EHelper(cltd) {
   rtlreg_t t_val;
   if (decoding.is_operand_size_16) {
 	rtl_lr_w(&t, R_AX);
+  printf("R_AX=0x%x\n",t);
 	if(t < 0){
 	  t_val = 0xffff;
 	  rtl_sr_w(R_DX, &t_val);
@@ -54,6 +55,7 @@ make_EHelper(cltd) {
   }
   else {
 	rtl_lr_l(&t, R_EAX);
+  printf("R_EAX=0x%x\n",t);
     if(t < 0){
 	  t_val = 0xffffffff;
 	  rtl_sr_l(R_EDX, &t_val);
