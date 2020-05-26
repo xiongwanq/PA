@@ -39,11 +39,29 @@ make_EHelper(leave) {
 }
 
 make_EHelper(cltd) {
+  rtlreg_t t;
+  rtlreg_t t_val;
   if (decoding.is_operand_size_16) {
-    TODO();
+	rtl_lr_w(&t, R_AX);
+	if(t < 0){
+	  t_val = 0xffff;
+	  rtl_sr_w(R_DX, &t_val);
+	}
+	else{
+	  t_val = 0;
+	  rtl_sr_w(R_DX, &t_val);
+	}
   }
   else {
-    TODO();
+	rtl_lr_l(&t, R_EAX);
+    if(t < 0){
+	  t_val = 0xffffffff;
+	  rtl_sr_l(R_EDX, &t_val);
+	}
+	else{
+	  t_val = 0;
+	  rtl_sr_w(R_EDX, &t_val);
+	}
   }
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
