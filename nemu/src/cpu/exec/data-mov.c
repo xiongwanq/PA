@@ -40,11 +40,12 @@ make_EHelper(leave) {
 
 make_EHelper(cltd) {
   rtlreg_t t;
+  rtlreg_t t_flag;
   rtlreg_t t_val;
   if (decoding.is_operand_size_16) {
 	rtl_lr(&t, R_AX, 2);
-//  printf("R_AX=0x%x\n",t);
-	if(t < 0){
+	rtl_msb(&t_flag, &t, 2);
+	if(t_flag == 0x1){
 	  t_val = 0xffff;
 	  rtl_sr(R_DX, 2, &t_val);
 	}
@@ -55,20 +56,15 @@ make_EHelper(cltd) {
   }
   else {
 	rtl_lr(&t, R_EAX, 4);
-    rtl_msb(&t0, &t, 4);
+    rtl_msb(&t_flag, &t, 4);
 
-    printf("flag=0x%x,R_EAX=0x%x\n",t0,t);
-    if(t < 0){
+    if(t_flag == 0x1){
 	  t_val = 0xffffffff;
 	  rtl_sr(R_EDX, 4, &t_val);
 	}
 	else{
-	  printf("----before-----\n");
-	  printf("R_EDX=0x%x\n",reg_l(R_EDX));
 	  t_val = 0;
 	  rtl_sr(R_EDX, 4, &t_val);
-	  printf("----after-----\n");
-	  printf("t_val=0x%x,R_EDX=0x%x\n",t_val,reg_l(R_EDX));
 	}
   }
 
