@@ -36,4 +36,5 @@ make_EHelper(dec);
 make_EHelper(imul2);
 make_EHelper(cltd);
 make_EHelper(idiv);
+make_EHelper(movsx);
 
