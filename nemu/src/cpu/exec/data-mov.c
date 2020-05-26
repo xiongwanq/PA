@@ -6,7 +6,6 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  printf(">push\nid_dest=0x%x,eax=0x%x\n",id_dest->val,reg_l(R_EAX));
   rtl_push(&id_dest -> val);
   print_asm_template1(push);
 }
