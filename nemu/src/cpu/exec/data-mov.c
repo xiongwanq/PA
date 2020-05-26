@@ -42,29 +42,31 @@ make_EHelper(cltd) {
   rtlreg_t t;
   rtlreg_t t_val;
   if (decoding.is_operand_size_16) {
-	rtl_lr_w(&t, R_AX);
+	rtl_lr(&t, R_AX, 2);
 //  printf("R_AX=0x%x\n",t);
 	if(t < 0){
 	  t_val = 0xffff;
-	  rtl_sr_w(R_DX, &t_val);
+	  rtl_sr(R_DX, 2, &t_val);
 	}
 	else{
 	  t_val = 0;
-	  rtl_sr_w(R_DX, &t_val);
+	  rtl_sr(R_DX, 2, &t_val);
 	}
   }
   else {
-	rtl_lr_l(&t, R_EAX);
-    printf("R_EAX=0x%x\n",t);
+	rtl_lr(&t, R_EAX, 4);
+    rtl_msb(&t0, &t, 4);
+
+    printf("flag=0x%x,R_EAX=0x%x\n",t0,t);
     if(t < 0){
 	  t_val = 0xffffffff;
-	  rtl_sr_l(R_EDX, &t_val);
+	  rtl_sr(R_EDX, 4, &t_val);
 	}
 	else{
 	  printf("----before-----\n");
 	  printf("R_EDX=0x%x\n",reg_l(R_EDX));
 	  t_val = 0;
-	  rtl_sr_l(R_EDX, &t_val);
+	  rtl_sr(R_EDX, 4, &t_val);
 	  printf("----after-----\n");
 	  printf("t_val=0x%x,R_EDX=0x%x\n",t_val,reg_l(R_EDX));
 	}
