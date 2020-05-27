@@ -105,7 +105,18 @@ make_EHelper(not) {
 }
 
 make_EHelper(rol) {
-  TODO();
-  
+  rtlreg_t t = id_src->val;
+  rtlreg_t tmpcf = 0;
+  while (t != 0)
+  {
+    rtl_shri(&tmpcf, &id_dest->val, id_dest->width * 8 - 1);
+    rtl_shli(&t0, &id_dest->val, 1);
+    rtl_add(&t0, &t0, &tmpcf);
+    t--;
+  }
+  operand_write(id_dest, &t0);
+
+  rtl_set_CF(&tmpcf);
+   
   print_asm_template2(rol);
 }
