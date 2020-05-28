@@ -37,8 +37,8 @@ make_EHelper(ret) {
 //  printf("dest=0x%x,src=0x%x\n",id_dest->val,id_src->val);
   decoding.is_jmp = 1;
   rtl_pop(&decoding.jmp_eip);
-  if(id_dest->width == 1){
-    rtl_sr(R_ESP, 1, &id_dest->val);
+  if(id_dest->width == 2){
+    rtl_sr(R_ESP, 2, &id_dest->val);
   }
   print_asm("ret");
 }
