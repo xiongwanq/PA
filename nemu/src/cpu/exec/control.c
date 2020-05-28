@@ -34,6 +34,7 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
+  printf("dest=0x%x,src=0x%x\n",id_dest->val,id_src->val);
   decoding.is_jmp = 1;
   rtl_pop(&decoding.jmp_eip);
   if(id_dest->val){
