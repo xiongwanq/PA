@@ -40,7 +40,7 @@ make_EHelper(ret) {
   if(id_dest->width == 1){
 	printf("-> ----before-----\n");
 	printf("-> dest=0x%x,esp=0x%x\n",id_dest->val,reg_l(R_ESP));
-    rtl_sr(R_ESP, 1, &id_dest->val);
+    reg_l(R_ESP)= reg_l(R_ESP)+ id_dest->val;
 	printf("-> ----after-----\n");
 	printf("-> esp=0x%x\n",reg_l(R_ESP));
   }
