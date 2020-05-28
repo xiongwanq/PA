@@ -34,15 +34,10 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-//  printf("dest->width=0x%x,dest=0x%x\nsrc->width=0x%x,src=0x%x\n",id_dest->width,id_dest->val,id_src->width,id_src->val);
   decoding.is_jmp = 1;
   rtl_pop(&decoding.jmp_eip);
   if(id_dest->width == 1){
-//	printf("-> ----before-----\n");
-//	printf("-> dest=0x%x,esp=0x%x\n",id_dest->val,reg_l(R_ESP));
     reg_l(R_ESP)= reg_l(R_ESP)+ id_dest->val;
-//	printf("-> ----after-----\n");
-//	printf("-> esp=0x%x\n",reg_l(R_ESP));
   }
   print_asm("ret");
 }
