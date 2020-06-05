@@ -9,6 +9,7 @@ extern uint8_t ramdisk_end;
  * a physical one, which is necessary for a microkernel.
  */
 
+
 /* read `len' bytes starting from `offset' of ramdisk into `buf' */
 void ramdisk_read(void *buf, off_t offset, size_t len) {
   assert(offset + len <= RAMDISK_SIZE);
