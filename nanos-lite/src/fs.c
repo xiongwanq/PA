@@ -75,13 +75,13 @@ ssize_t fs_write(int fd, const void *buf, size_t len) {
   Finfo *f = file_table + fd;
   int remain_bytes = f->size - f->open_offset;
   int bytes_to_write = (remain_bytes > len ? len : remain_bytes);
-  printf("fd = 0x%x\n",fd);
+//  printf("fd = 0x%x\n",fd);
   switch (fd) {
     case FD_STDOUT:
     case FD_STDERR:
       for (int i = 0; i < len; i ++) {
         _putc( ((char *)buf)[i] );
-		printf("buf[%d] = %c\n\n",i,((char *)buf)[i]);
+//		printf("buf[%d] = %c\n\n",i,((char *)buf)[i]);
       }
     case FD_EVENTS:
       return len;
