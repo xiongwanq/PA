@@ -44,7 +44,7 @@ make_EHelper(int) {
 make_EHelper(iret) {
   rtl_pop(&cpu.eip);
   rtl_pop(&cpu.cs);
-  rtl_pop(NULL);
+  rtl_pop(&t1);
   rtl_pop(&cpu.eflags.value);
   decoding.is_jmp = 1;
 
