@@ -7,6 +7,7 @@ int main() {
   volatile int j = 0;
   while (1) {
     j ++;
+    printf("j = %d\n",j);
     if (j == 10) {
       printf("Hello World for the %dth time\n", i ++);
       j = 0;
