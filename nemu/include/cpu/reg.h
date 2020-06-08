@@ -14,89 +14,48 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
-//typedef struct {
-//	union {
-//		union {
-//			uint32_t _32;
-//			uint16_t _16;
-//			uint8_t _8[2];
-//		} gpr[8];
-//
-//		/* Do NOT change the order of the GPRs' definitions. */
-//
-//		/* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-//		* in PA2 able to directly access these registers.
-//		*/
-//		struct{
-//			rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-//		};
-//	};
-//
-//  vaddr_t eip;
-//
-//  union {
-//	struct{	// 位域是冒号！
-//	  uint32_t CF : 1;	// 无符号整型溢出 - 最高位进位或借位则置1
-//      uint32_t x1 : 5;
-//      uint32_t ZF : 1;	// 是否为零 - 结果为0则置1
-//      uint32_t SF : 1;	// 符号整型的最高位
-//      uint32_t x2 : 1;
-//      uint32_t IF : 1;	// 允许单步调试 - 1  禁用该模式 - 0
-//      uint32_t x3 : 1;
-//      uint32_t OF : 1;	// 带符号整型溢出
-//      uint32_t x4 : 20;
-//	};
-//	uint32_t value;			// 初值
-//  } eflags;
-//
-//  struct{
-//    uint32_t base;
-//    uint16_t limit;
-//  }idtr;
-//  rtlreg_t cs;
-//
-//} CPU_state;
+typedef struct {
+	union {
+		union {
+			uint32_t _32;
+			uint16_t _16;
+			uint8_t _8[2];
+		} gpr[8];
 
-typedef union {
+		/* Do NOT change the order of the GPRs' definitions. */
+
+		/* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
+		* in PA2 able to directly access these registers.
+		*/
+		struct{
+			rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+		};
+	};
+
+  vaddr_t eip;
+
   union {
-    uint32_t _32;
-    uint16_t _16;
-    uint8_t _8[2];
-  } gpr[8];
+	struct{	// 位域是冒号！
+	  uint32_t CF : 1;	// 无符号整型溢出 - 最高位进位或借位则置1
+      uint32_t x1 : 5;
+      uint32_t ZF : 1;	// 是否为零 - 结果为0则置1
+      uint32_t SF : 1;	// 符号整型的最高位
+      uint32_t x2 : 1;
+      uint32_t IF : 1;	// 允许单步调试 - 1  禁用该模式 - 0
+      uint32_t x3 : 1;
+      uint32_t OF : 1;	// 带符号整型溢出
+      uint32_t x4 : 20;
+	};
+	uint32_t value;			// 初值
+  } eflags;
 
-  /* Do NOT change the order of the GPRs' definitions. */
-
-  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-   * in PA2 able to directly access these registers.
-   */
-  struct {
-	rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-	vaddr_t eip;
-    union {
-      struct {
-        uint32_t CF:1;//CF占一位
-        unsigned : 5;//之后是5位空域
-        uint32_t ZF:1;//ZF占一位
-        uint32_t SF:1;//SF占一位
-        unsigned : 1;//1位空域
-        uint32_t IF:1;//IF占一位
-        unsigned : 1;//1位空域
-        uint32_t OF:1;//OF占一位
-        unsigned : 20;//20位空域
-      };
-    rtlreg_t value;//赋初值要用
-    }eflags;
-
-    rtlreg_t cs;//cs寄存器
-    struct {
-      uint32_t base; //32位base
-      uint16_t limit; //16位limit
-    }idtr;
-  };
+  struct{
+    uint32_t base;
+    uint16_t limit;
+  }idtr;
+  rtlreg_t cs;
 
 } CPU_state;
-
-
 
 extern CPU_state cpu;
 

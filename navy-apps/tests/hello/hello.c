@@ -2,18 +2,16 @@
 #include <stdio.h>
 
 int main() {
-  printf("beforeWrite\n");
   write(1, "Hello World!\n", 13);
-  printf("afterWrite\n");
-  int i = 2;
-  volatile int j = 0;
-  while (1) {
-    j ++;
-    printf("j = %d\n",j);
-    if (j == 10000) {
-      printf("Hello World for the %dth time\n", i ++);
-      j = 0;
-    }
-  }
+//  int i = 2;
+//  volatile int j = 0;
+//  while (1) {
+//    j ++;
+//    printf("j = %d\n",j);
+//    if (j == 10000) {
+//      printf("Hello World for the %dth time\n", i ++);
+//      j = 0;
+//    }
+//  }
   return 0;
 }
