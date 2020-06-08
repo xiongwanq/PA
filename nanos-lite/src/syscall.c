@@ -50,8 +50,8 @@ _RegSet* do_syscall(_RegSet *r) {
   a[0] = SYSCALL_ARG1(r);
   a[1] = SYSCALL_ARG1(r);
   a[2] = SYSCALL_ARG1(r);
-  a[3] = SYSCALL_ARG1(r);switch (a[0]) {
-
+  a[3] = SYSCALL_ARG1(r);
+  switch (a[0]) {
     case SYS_none:
 	  sys_none(r);
 	  break;
@@ -65,7 +65,9 @@ _RegSet* do_syscall(_RegSet *r) {
 //	  sys_open(r);
 //	  break;
 	case SYS_write:
+	  Log("beforeSys_write\n");
 	  sys_write(r, a[1], a[2], a[3]);
+	  Log("afterSys_write\n");
 	  break;
 //	case SYS_read:
 //	  sys_read(r):
