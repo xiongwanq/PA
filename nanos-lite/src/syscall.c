@@ -11,9 +11,9 @@ static inline uintptr_t sys_open(uintptr_t pathname, uintptr_t flags, uintptr_t 
 
 static inline uintptr_t sys_write(_RegSet *r,uintptr_t fd, uintptr_t buf, uintptr_t len) {
 //  printf("sys_write\n");
-  Log("beforeFs_write");
+//  Log("beforeFs_write");
   SYSCALL_ARG1(r) = fs_write(fd, (void *)buf, len);
-  Log("afterFs_write\n");
+//  Log("afterFs_write\n");
   return 1;
 }
 
@@ -66,9 +66,9 @@ _RegSet* do_syscall(_RegSet *r) {
 //	  sys_open(r);
 //	  break;
 	case SYS_write:
-	  Log("beforeSys_write\n");
+//	  Log("beforeSys_write\n");
 	  sys_write(r, a[1], a[2], a[3]);
-	  Log("afterSys_write\n");
+//	  Log("afterSys_write\n");
 	  break;
 //	case SYS_read:
 //	  sys_read(r):
