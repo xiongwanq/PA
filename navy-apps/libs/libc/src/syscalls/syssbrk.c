@@ -13,6 +13,7 @@ sbrk (incr)
 #ifdef REENTRANT_SYSCALLS_PROVIDED
   return _sbrk_r (_REENT, incr);
 #else
+  Log("sbrk\n");
   return _sbrk (incr);
 #endif
 }
