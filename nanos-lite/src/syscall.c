@@ -10,7 +10,7 @@ static inline uintptr_t sys_open(uintptr_t pathname, uintptr_t flags, uintptr_t 
 }
 
 static inline uintptr_t sys_write(uintptr_t fd, uintptr_t buf, uintptr_t len) {
-  Log();
+//  Log();
   return fs_write(fd, (void *)buf, len);
 }
 
@@ -44,6 +44,7 @@ static inline uintptr_t sys_exit(_RegSet *r) {
 }
 
 _RegSet* do_syscall(_RegSet *r) {
+  Log();
   uintptr_t a[4];
   uintptr_t eax;
   a[0] = SYSCALL_ARG1(r);
