@@ -44,7 +44,6 @@ static inline uintptr_t sys_exit(_RegSet *r) {
 }
 
 _RegSet* do_syscall(_RegSet *r) {
-  Log();
   uintptr_t a[4];
   uintptr_t eax;
   a[0] = SYSCALL_ARG1(r);
@@ -59,6 +58,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	  sys_exit(r);
 	  break;
 	case SYS_brk:
+	  Log("use brk\n");
 	  eax = sys_brk();
 	  break;
 //	case SYS_open:
