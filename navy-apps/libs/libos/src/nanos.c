@@ -33,9 +33,11 @@ void *_sbrk(intptr_t increment){
   extern char end; /* Defined by the linker */
   static intptr_t program_break = (intptr_t)&end;
   intptr_t prev_program_break = program_break;
-  Log();  
+//  char str[80]; 
+//  sprintf(str, "Pi 的值 = %f", 3);  
+  write(1, "xxxxx yyyyy!\n", 13);
   if(_syscall_(SYS_brk, program_break + increment, 0, 0) == 0){
-    Log();
+    
 	program_break = prev_program_break + increment;
 	return (void *)prev_program_break;
   }
