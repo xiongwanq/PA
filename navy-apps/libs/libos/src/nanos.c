@@ -31,11 +31,8 @@ int _write(int fd, void *buf, size_t count){
 
 void *_sbrk(intptr_t increment){
   extern char end; /* Defined by the linker */
-  static intptr_t program_break = (intptr_t)&end;
-  intptr_t prev_program_break = program_break;
-//  char str[80]; 
-//  sprintf(str, "Pi 的值 = %f", 3);  
-//  write(1, "xxxxx yyyyy!\n", 13);
+  static char program_break = (char)&end;
+  char prev_program_break = program_break;
   if(_syscall_(SYS_brk, 0, 0, 0) == 0){
     
 	program_break = prev_program_break + increment;
@@ -44,8 +41,6 @@ void *_sbrk(intptr_t increment){
   else{
 	return (void *)-1;
   }
-
-//  return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
