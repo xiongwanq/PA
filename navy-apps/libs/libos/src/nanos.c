@@ -35,8 +35,9 @@ void *_sbrk(intptr_t increment){
   intptr_t *prev_program_break = program_break;
   
   if(_syscall_(SYS_brk, program_break + increment, 0, 0) == 0){
+    Log();
 	program_break = prev_program_break + increment;
-	return (void *) prev_program_break;
+	return (void *)prev_program_break;
   }
   else{
 	return (void *)-1;
