@@ -30,7 +30,7 @@ static inline uintptr_t sys_brk() {
   return 0;
 }
 
-static inline uintptr_t sys_none(_RegSet *r) {
+static inline uintptr_t sys_none() {
 //  SYSCALL_ARG1(r) = 1;
   return 1;
 }
@@ -49,7 +49,7 @@ _RegSet* do_syscall(_RegSet *r) {
   a[3] = SYSCALL_ARG4(r);
   switch (a[0]) {
     case SYS_none:
-	  eax = sys_none(r);
+	  eax = sys_none();
 	  break;
     case SYS_exit:
 	  sys_exit(r);
@@ -79,5 +79,5 @@ _RegSet* do_syscall(_RegSet *r) {
   }
   SYSCALL_ARG1(r) = eax;
  
-  return r;
+  return NULL;
 }
