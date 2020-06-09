@@ -55,7 +55,6 @@ _RegSet* do_syscall(_RegSet *r) {
 	  sys_exit(r);
 	  break;
 	case SYS_brk:
-	  Log("use brk\n");
 	  eax = sys_brk();
 	  break;
 	case SYS_open:
