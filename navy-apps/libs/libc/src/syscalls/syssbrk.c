@@ -11,10 +11,10 @@ sbrk (incr)
      size_t incr;
 {
 #ifdef REENTRANT_SYSCALLS_PROVIDED
-  Log("_sbrk_r\n");
+//  Log("_sbrk_r\n");
   return _sbrk_r (_REENT, incr);
 #else
-  Log("sbrk\n");
+//  Log("sbrk\n");
   return _sbrk (incr);
 #endif
 }
