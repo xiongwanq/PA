@@ -28,9 +28,8 @@ static inline uintptr_t sys_close(uintptr_t fd) {
   return 1;
 }
 
-static inline uintptr_t sys_brk(uintptr_t new_brk) {
-//  SYSCALL_ARG1(r) = 0;
-  return 1;
+static inline uintptr_t sys_brk() {
+  return 0;
 }
 
 static inline uintptr_t sys_none(_RegSet *r) {
@@ -57,9 +56,9 @@ _RegSet* do_syscall(_RegSet *r) {
     case SYS_exit:
 	  sys_exit(r);
 	  break;
-//	case SYS_brk:
-//	  sys_brk(r):
-//	  break;
+	case SYS_brk:
+	  eax = sys_brk(r);
+	  break;
 //	case SYS_open:
 //	  sys_open(r);
 //	  break;
