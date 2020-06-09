@@ -61,7 +61,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	  eax = sys_open(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_write:
-//	  Log("use write\n");
+	  Log("use write\n");
 	  eax = sys_write(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_read:
