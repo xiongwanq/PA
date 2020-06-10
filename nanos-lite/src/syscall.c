@@ -41,41 +41,39 @@ static inline uintptr_t sys_exit(_RegSet *r) {
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
-  uintptr_t eax;
   a[0] = SYSCALL_ARG1(r);
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
   switch (a[0]) {
     case SYS_none:
-	  eax = sys_none();
+	  SYSCALL_ARG1(r) = sys_none();
 	  break;
     case SYS_exit:
 	  sys_exit(r);
 	  break;
 	case SYS_brk:
-	  eax = sys_brk();
+	  SYSCALL_ARG1(r) = sys_brk();
 	  break;
 	case SYS_open:
-	  eax = sys_open(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
+	  SYSCALL_ARG1(r) = sys_open(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_write:
 //	  Log("use write\n");
-	  eax = sys_write(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
+	  SYSCALL_ARG1(r) = sys_write(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_read:
-	  eax = sys_read(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
+	  SYSCALL_ARG1(r) = sys_read(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_lseek:
-	  eax = sys_lseek(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
+	  SYSCALL_ARG1(r) = sys_lseek(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
 	  break;
 	case SYS_close:
-	  eax = sys_close(SYSCALL_ARG2(r));
+	  SYSCALL_ARG1(r) = sys_close(SYSCALL_ARG2(r));
 	  break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
-  SYSCALL_ARG1(r) = eax;
 
   return r;
 //  return NULL;
