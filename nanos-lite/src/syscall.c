@@ -76,6 +76,7 @@ _RegSet* do_syscall(_RegSet *r) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   SYSCALL_ARG1(r) = eax;
- 
-  return NULL;
+
+  return r;
+//  return NULL;
 }
