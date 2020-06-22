@@ -33,7 +33,7 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {
-    if (((addr & 0xffff) + len) > 0x1000) {
+    if (((addr & 0xfff) + len) > 0x1000) {
 //	if((((addr<<20)>>20)+len)>0x1000){
         /* this is a special case, you can handle it later. */
         assert(0);
@@ -49,7 +49,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   if(cpu.cr0.paging) {
-    if (((addr & 0xffff) + len) > 0x1000) {
+    if (((addr & 0xfff) + len) > 0x1000) {
 //    if((((addr<<20)>>20)+len)>0x1000){
         /* this is a special case, you can handle it later. */
         assert(0);
