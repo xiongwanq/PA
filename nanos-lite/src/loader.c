@@ -17,6 +17,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
 
   for(int i = 0; i < pageNum; i ++){
     pa = new_page();//空闲物理页
+    Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
     _map(as, va, pa);
     fs_read(file, pa, PGSIZE);
     va += PGSIZE;
