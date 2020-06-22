@@ -69,18 +69,22 @@ paddr_t page_translate(vaddr_t vaddr, bool writing){
 
   uint32_t DIR = vaddr >> 22;
   uint32_t PAGE = (vaddr >> 12) & 0x3ff;
-  uint32_t OFFSET = vaddr & 0xfffff000;
+  uint32_t OFFSET = vaddr & 0xfff;
   Log("DIR=0x%x,PAGE=0x%x,OFFSET=0x%x\n",DIR,PAGE,OFFSET);
 
   uint32_t pdaddr = (cpu.cr3.page_directory_base << 12) + (DIR << 2);
   Log("pdaddr=0x%x\n",pdaddr);
   pde.val = paddr_read(pdaddr, 4);
   Log("pde.val=0x%x\n",pde.val);
-  uint32_t ptaddr = (pde.val << 12) + (PAGE << 2);
+  assert(pde.present);
+
+  uint32_t ptaddr = (pde.val & 0xfffff000) + (PAGE << 2);
   Log("ptaddr=0x%x\n",ptaddr);
   pte.val = paddr_read(ptaddr, 4);
   Log("pte.val=0x%x\n",pte.val);
-  uint32_t paddr = (pte.val <<12) + OFFSET;
+  assert(pte.present);
+
+  uint32_t paddr = (pte.val & 0xfffff000) + OFFSET;
   Log("paddr=0x%x\n",paddr);
 
   if(pde.accessed == 0){
