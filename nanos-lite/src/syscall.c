@@ -25,7 +25,8 @@ static inline uintptr_t sys_close(uintptr_t fd) {
   return fs_close(fd);
 }
 
-static inline uintptr_t sys_brk() {
+static inline uintptr_t sys_brk(_RegSet *r) {
+  SYSCALL_ARG1(r) = mm_brk(SYSCALL_ARG2(r));
   return 0;
 }
 
@@ -53,7 +54,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	  sys_exit(r);
 	  break;
 	case SYS_brk:
-	  SYSCALL_ARG1(r) = sys_brk();
+	  SYSCALL_ARG1(r) = sys_brk(r);
 	  break;
 	case SYS_open:
 	  SYSCALL_ARG1(r) = sys_open(SYSCALL_ARG2(r), SYSCALL_ARG3(r), SYSCALL_ARG4(r));
