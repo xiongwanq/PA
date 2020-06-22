@@ -34,8 +34,17 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {
     if (((addr & 0xfff) + len) > 0x1000) {
-        /* this is a special case, you can handle it later. */
-        assert(0);
+		int firSize,secSize;
+        firSize = 0x1000 - (addr & 0xfff);
+        secSize = len - firSize; 
+
+        uint32_t firAddr = page_translate(addr, false);
+        uint32_t firMem = paddr_read(firAddr, firSize);
+
+        uint32_t secAddr = page_translate(addr + firSize, false);
+        uint32_t secMem = paddr_read(secAddr, secSize);
+        
+        return firMem + (secMem << (firSize << 3));
     }
     else {
         paddr_t paddr = page_translate(addr, false);
@@ -49,8 +58,16 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   if(cpu.cr0.paging) {
     if (((addr & 0xfff) + len) > 0x1000) {
-        /* this is a special case, you can handle it later. */
-        assert(0);
+		int firSize,secSize;
+        firSize = 0x1000 - (addr & 0xfff);
+        secSize = len - firSize; 
+
+        uint32_t firAddr = page_translate(addr, true);
+        paddr_write(firAddr, firSize, data);
+
+        uint32_t highData = data >> (firSize << 3);
+        uint32_t secAddr = page_translate(addr + firSize, true);
+        paddr_write(secAddr, secSize, highData);
     }
     else {
         paddr_t paddr = page_translate(addr, true);
