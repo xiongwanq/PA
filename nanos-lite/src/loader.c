@@ -1,13 +1,27 @@
 #include "common.h"
 #include "fs.h"
-#define DEFAULT_ENTRY ((void *)0x4000000)
+#include "memory.h"
+
+#define DEFAULT_ENTRY ((void *)0x8048000)
 
 extern void ramdisk_read(void *buf, off_t offset, size_t len);
 extern size_t get_ramdisk_size();
 
 uintptr_t loader(_Protect *as, const char *filename) {
   int file = fs_open(filename, 0, 0);
-  fs_read(file, DEFAULT_ENTRY, fs_filesz(file));
+  size_t fileSize = fs_filesz(file); 
+//  fs_read(file, DEFAULT_ENTRY, fs_filesz(file));
+  void *va = DEFAULT_ENTRY;
+  void *pa;
+  int pageNum = fileSize / PGSIZE + 1;
+
+  for(int i = 0; i < pageNum; i ++){
+    pa = new_page();//空闲物理页
+    _map(as, va, pa);
+    fs_read(file, pa, PGSIZE);
+    va += PGSIZE;
+  }
+
   fs_close(file);
 
   return (uintptr_t)DEFAULT_ENTRY;
