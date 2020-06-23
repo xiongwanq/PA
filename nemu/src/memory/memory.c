@@ -33,7 +33,8 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {
-    if (((addr & 0xfff) + len) > 0x1000) {
+//    if (((addr & 0xfff) + len) > 0x1000) {
+	if((((addr<<20)>>20)+len)>0x1000){
 		int firSize,secSize;
         firSize = 0x1000 - (addr & 0xfff);
         secSize = len - firSize; 
@@ -57,7 +58,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   if(cpu.cr0.paging) {
-    if (((addr & 0xfff) + len) > 0x1000) {
+//    if (((addr & 0xfff) + len) > 0x1000) {
+	if((((addr<<20)>>20)+len)>0x1000){
 		int firSize,secSize;
         firSize = 0x1000 - (addr & 0xfff);
         secSize = len - firSize; 
@@ -102,10 +104,10 @@ paddr_t page_translate(vaddr_t vaddr, bool writing){
   uint32_t paddr = (pte.val & 0xfffff000) + OFFSET;
 //  Log("paddr=0x%x\n",paddr);
 
-  if(pde.accessed == 0){
+//  if(pde.accessed == 0){
     pde.accessed = 1;
     paddr_write(pdaddr, 4, pde.val);
-  }
+//  }
   if(pte.accessed == 0 || ((pte.dirty == 0) && writing)){
     pte.accessed = 1;
     pte.dirty = 1;
