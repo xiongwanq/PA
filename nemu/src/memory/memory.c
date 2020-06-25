@@ -31,6 +31,43 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
   }
 }
 
+paddr_t page_translate(vaddr_t vaddr, bool writing){
+  PDE pde;
+  PTE pte;
+
+  uint32_t Dir = vaddr >> 22;
+//  uint32_t OFFSET = vaddr & 0xfff;
+//  Log("DIR=0x%x,PAGE=0x%x,OFFSET=0x%x\n",DIR,PAGE,OFFSET);
+
+  uint32_t pdaddr = (cpu.cr3.page_directory_base << 12) + (Dir << 2);
+//  Log("pdaddr=0x%x\n",pdaddr);
+  pde.val = paddr_read(pdaddr, 4);
+//  Log("pde.val=0x%x\n",pde.val);
+  assert(pde.present);
+
+  uint32_t PAGE = (vaddr >> 12) & 0x3ff;
+  uint32_t ptaddr = (pde.val & 0xfffff000) + (PAGE << 2);
+//  Log("ptaddr=0x%x\n",ptaddr);
+  pte.val = paddr_read(ptaddr, 4);
+//  Log("pte.val=0x%x\n",pte.val);
+  assert(pte.present);
+
+//  uint32_t paddr = (pte.val & 0xfffff000) + OFFSET;
+  uint32_t paddr = (pte.val & 0xfffff000) + (vaddr & 0xfff);
+//  Log("paddr=0x%x\n",paddr);
+
+//  if(pde.accessed == 0){
+    pde.accessed = 1;
+    paddr_write(pdaddr, 4, pde.val);
+//  }
+  if(pte.accessed == 0 || (pte.dirty == 0 && writing)){
+    pte.accessed = 1;
+    pte.dirty = 1;
+  }
+  paddr_write(ptaddr, 4, pte.val);
+  return paddr;
+}
+
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {
 //    if (((addr & 0xfff) + len) > 0x1000) {
@@ -80,39 +117,3 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     return paddr_write(addr, len, data);
 }
 
-paddr_t page_translate(vaddr_t vaddr, bool writing){
-  PDE pde;
-  PTE pte;
-
-  uint32_t Dir = vaddr >> 22;
-//  uint32_t OFFSET = vaddr & 0xfff;
-//  Log("DIR=0x%x,PAGE=0x%x,OFFSET=0x%x\n",DIR,PAGE,OFFSET);
-
-  uint32_t pdaddr = (cpu.cr3.page_directory_base << 12) + (Dir << 2);
-//  Log("pdaddr=0x%x\n",pdaddr);
-  pde.val = paddr_read(pdaddr, 4);
-//  Log("pde.val=0x%x\n",pde.val);
-  assert(pde.present);
-
-  uint32_t PAGE = (vaddr >> 12) & 0x3ff;
-  uint32_t ptaddr = (pde.val & 0xfffff000) + (PAGE << 2);
-//  Log("ptaddr=0x%x\n",ptaddr);
-  pte.val = paddr_read(ptaddr, 4);
-//  Log("pte.val=0x%x\n",pte.val);
-  assert(pte.present);
-
-//  uint32_t paddr = (pte.val & 0xfffff000) + OFFSET;
-  uint32_t paddr = (pte.val & 0xfffff000) + (vaddr & 0xfff);
-//  Log("paddr=0x%x\n",paddr);
-
-//  if(pde.accessed == 0){
-    pde.accessed = 1;
-    paddr_write(pdaddr, 4, pde.val);
-//  }
-  if(pte.accessed == 0 || (pte.dirty == 0 && writing)){
-    pte.accessed = 1;
-    pte.dirty = 1;
-  }
-  paddr_write(ptaddr, 4, pte.val);
-  return paddr;
-}
