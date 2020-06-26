@@ -29,19 +29,29 @@ int _write(int fd, void *buf, size_t count){
   return _syscall_(SYS_write, fd, (uintptr_t)buf, count);
 }
 
+extern char _end;
+static intptr_t program_break = (intptr_t)&_end;//program break 开始位于_end
 void *_sbrk(intptr_t increment){
-  extern char _end; 
-  static intptr_t  program_break = (intptr_t)&_end;
-  intptr_t prev_program_break = program_break;
-
-  if(!_syscall_(SYS_brk, 0, 0, 0)){
-	program_break = prev_program_break + increment;
-	return (void *)prev_program_break;
+  intptr_t previous_program_break = program_break;
+  if(_syscall_(SYS_brk,program_break+increment,0,0)==0){//成功
+    program_break += increment;//更新program break
+    return (void*)previous_program_break;
   }
-  else{
-	return (void *)-1;
-  }
+  return (void *)-1;
 }
+//void *_sbrk(intptr_t increment){
+//  extern char _end; 
+//  static intptr_t  program_break = (intptr_t)&_end;
+//  intptr_t prev_program_break = program_break;
+//
+//  if(!_syscall_(SYS_brk, 0, 0, 0)){
+//	program_break = prev_program_break + increment;
+//	return (void *)prev_program_break;
+//  }
+//  else{
+//	return (void *)-1;
+//  }
+//}
 
 int _read(int fd, void *buf, size_t count) {
   return _syscall_(SYS_read, fd, (uintptr_t)buf, count);
