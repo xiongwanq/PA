@@ -56,10 +56,12 @@ make_group(gp3,
     EX(mul), EX(imul1), EX(div), EX(idiv))
 
   /* 0xfe */
-make_group(gp4,
-    EMPTY, EX(dec), EMPTY, EMPTY,
+//make_group(gp4,
+//    EMPTY, EX(dec), EMPTY, EMPTY,
+//    EMPTY, EMPTY, EMPTY, EMPTY)
+  make_group(gp4,
+    EXW(inc,1), EXW(dec,1), EMPTY, EMPTY,
     EMPTY, EMPTY, EMPTY, EMPTY)
- 
 
   /* 0xff */
 make_group(gp5,
