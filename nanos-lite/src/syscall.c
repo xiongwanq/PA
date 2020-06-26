@@ -29,7 +29,7 @@ static inline uintptr_t sys_close(uintptr_t fd) {
 static inline uintptr_t sys_brk(_RegSet *r) {
 //  Log("sys_brk\n");
   SYSCALL_ARG1(r) = mm_brk(SYSCALL_ARG2(r));
-  Log("eax=0x%x,ebx=0x%x,mm_brk(ebx)=0x%x\n",SYSCALL_ARG1(r),SYSCALL_ARG2(r),mm_brk(SYSCALL_ARG2(r)));
+//  Log("eax=0x%x,ebx=0x%x,mm_brk(ebx)=0x%x\n",SYSCALL_ARG1(r),SYSCALL_ARG2(r),mm_brk(SYSCALL_ARG2(r)));
   return 0;
 }
 
