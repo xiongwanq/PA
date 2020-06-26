@@ -56,18 +56,17 @@ make_group(gp3,
     EX(mul), EX(imul1), EX(div), EX(idiv))
 
   /* 0xfe */
-//make_group(gp4,
-//    EMPTY, EX(dec), EMPTY, EMPTY,
-//    EMPTY, EMPTY, EMPTY, EMPTY)
-  make_group(gp4,
-    EXW(inc,1), EXW(dec,1), EMPTY, EMPTY,
+make_group(gp4,
+    EMPTY, EX(dec), EMPTY, EMPTY,
     EMPTY, EMPTY, EMPTY, EMPTY)
 
   /* 0xff */
-make_group(gp5,
-    EX(inc), EX(dec), EX(call_rm), EX(call),	
-    EX(jmp_rm), EMPTY, EX(push), EMPTY) 
-
+//make_group(gp5,
+//    EX(inc), EX(dec), EX(call_rm), EX(call),	
+//    EX(jmp_rm), EMPTY, EX(push), EMPTY) 
+  make_group(gp5,
+    EX(inc), EX(dec), EX(call_rm), EX(call),
+    EX(jmp_rm), EX(jmp), EXW(push,4), EMPTY)
   /* 0x0f 0x01*/
 make_group(gp7,
     EMPTY, EMPTY, EMPTY, EX(lidt),
